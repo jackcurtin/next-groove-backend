@@ -3,15 +3,18 @@ package com.example.nextgroovebackend.services;
 import com.example.nextgroovebackend.exceptions.InformationExistsException;
 import com.example.nextgroovebackend.exceptions.InformationNotFoundException;
 import com.example.nextgroovebackend.models.User;
+import com.example.nextgroovebackend.models.UserProfile;
 import com.example.nextgroovebackend.models.request.LoginRequest;
 import com.example.nextgroovebackend.models.response.LoginResponse;
 import com.example.nextgroovebackend.repositories.UserProfileRepository;
 import com.example.nextgroovebackend.repositories.UserRepository;
 import com.example.nextgroovebackend.security.JWTUtils;
+import com.example.nextgroovebackend.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,6 +72,23 @@ public class UserService {
         }catch(NullPointerException e){
             throw new InformationNotFoundException("No user registered under" + loginRequest.getUserName());
         }
+    }
+
+    public User createUserProfile(UserProfile userProfileObject){
+        System.out.println("User service calling createUserProfile");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByEmail(userDetails.getUsername()).get();
+        userProfileObject.setUser(user);
+        userProfileRepository.save(userProfileObject);
+        user.setUserProfile(userProfileRepository.findUserProfileById(userProfileObject.getId()));
+        return userRepository.save(user);
+    }
+
+    public UserProfile getUserProfile () {
+        System.out.println("User service calling getUserProfile");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByEmail(userDetails.getUsername()).get();
+        return userProfileRepository.findUserProfileById(user.getUserProfile().getId());
     }
 
 }

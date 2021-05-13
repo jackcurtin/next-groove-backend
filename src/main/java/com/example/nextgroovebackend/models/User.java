@@ -56,6 +56,14 @@ public class User {
         this.password = password;
     }
 
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
     @Override
     public String toString() {
         return "User{" +
