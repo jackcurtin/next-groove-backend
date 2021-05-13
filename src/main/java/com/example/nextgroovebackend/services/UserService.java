@@ -65,12 +65,12 @@ public class UserService {
         System.out.println("User service calling loginUser");
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginRequest.getUserName(), loginRequest.getPassword()));
-            final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUserName());
+                    loginRequest.getEmail(), loginRequest.getPassword()));
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
             final String JWT = jwtUtils.generateToken(userDetails);
             return ResponseEntity.ok(new LoginResponse(JWT));
         }catch(NullPointerException e){
-            throw new InformationNotFoundException("No user registered under" + loginRequest.getUserName());
+            throw new InformationNotFoundException("No user registered under" + loginRequest.getEmail());
         }
     }
 
