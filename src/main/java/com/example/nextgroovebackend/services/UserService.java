@@ -6,7 +6,9 @@ import com.example.nextgroovebackend.repositories.UserProfileRepository;
 import com.example.nextgroovebackend.repositories.UserRepository;
 import com.example.nextgroovebackend.security.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,6 +51,13 @@ public class UserService {
         } else {
             userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
             return userRepository.save(userObject);
+        }
+    }
+
+    public ResponseEntity<Object> loginUser(Login loginRequest) {
+        System.out.println("User service calling loginUser");
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.get))
         }
     }
 
