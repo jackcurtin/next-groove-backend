@@ -2,6 +2,7 @@ package com.example.nextgroovebackend.security;
 
 
 import com.example.nextgroovebackend.models.User;
+import com.example.nextgroovebackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +21,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userService.findUserByUserName(userName);
+        User user = userService.
         return new MyUserDetails(user);
     }
 }
