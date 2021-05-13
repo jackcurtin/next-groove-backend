@@ -1,5 +1,6 @@
 package com.example.nextgroovebackend.services;
 
+import com.example.nextgroovebackend.exceptions.InformationExistsException;
 import com.example.nextgroovebackend.models.User;
 import com.example.nextgroovebackend.repositories.UserProfileRepository;
 import com.example.nextgroovebackend.repositories.UserRepository;
@@ -44,7 +45,10 @@ public class UserService {
         System.out.println("User service calling create user");
         Optional<User> user = userRepository.findByEmail(userObject.getEmail());
         if (user.isPresent()){
-
+            throw new InformationExistsException("User already registered under " + userObject.getEmail());
+        } else {
+            userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
+            return userRepository.save(userObject);
         }
     }
 
