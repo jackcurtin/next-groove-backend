@@ -1,7 +1,10 @@
 package com.example.nextgroovebackend.services;
 
 import com.example.nextgroovebackend.exceptions.InformationExistsException;
+import com.example.nextgroovebackend.exceptions.InformationNotFoundException;
 import com.example.nextgroovebackend.models.User;
+import com.example.nextgroovebackend.models.request.LoginRequest;
+import com.example.nextgroovebackend.models.response.LoginResponse;
 import com.example.nextgroovebackend.repositories.UserProfileRepository;
 import com.example.nextgroovebackend.repositories.UserRepository;
 import com.example.nextgroovebackend.security.JWTUtils;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,10 +58,16 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Object> loginUser(Login loginRequest) {
+    public ResponseEntity<Object> loginUser(LoginRequest loginRequest) {
         System.out.println("User service calling loginUser");
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.get))
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    loginRequest.getUserName(), loginRequest.getPassword()));
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUserName());
+            final String JWT = jwtUtils.generateToken(userDetails);
+            return ResponseEntity.ok(new LoginResponse(JWT));
+        }catch(NullPointerException e){
+            throw new InformationNotFoundException("No user registered under" + loginRequest.getUserName());
         }
     }
 
