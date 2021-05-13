@@ -1,5 +1,7 @@
 package com.example.nextgroovebackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +17,7 @@ public class UserProfile {
     private String name;
 
     @OneToOne
+    @JsonIgnore
     private User user;
 
     public UserProfile() {
