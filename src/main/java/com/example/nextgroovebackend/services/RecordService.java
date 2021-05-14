@@ -4,6 +4,7 @@ import com.example.nextgroovebackend.exceptions.CannotBeNullException;
 import com.example.nextgroovebackend.exceptions.InformationExistsException;
 import com.example.nextgroovebackend.exceptions.InformationNotFoundException;
 import com.example.nextgroovebackend.models.Genre;
+import com.example.nextgroovebackend.models.Mood;
 import com.example.nextgroovebackend.models.Record;
 import com.example.nextgroovebackend.models.Tone;
 import com.example.nextgroovebackend.repositories.GenreRepository;
@@ -72,6 +73,17 @@ public class RecordService {
             int hiLo = Integer.parseInt(toneObject.get("hiLoValue"));
             Tone newTone = new Tone(hiLo, md);
             return toneRepository.save(newTone);
+        }
+    }
+
+    private Mood createMood(Map <String, String> moodObject){
+        if(moodObject.get("fsValue").isEmpty() || moodObject.get("udValue").isEmpty()){
+            throw new CannotBeNullException("Mood values are required for record creation");
+        } else{
+            int fs = Integer.parseInt(moodObject.get("fsValue"));
+            int ud = Integer.parseInt(moodObject.get("udValue"));
+            Mood newMood = new Mood(fs, ud);
+            return moodRepository.save(newMood);
         }
     }
 }
