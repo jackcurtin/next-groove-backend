@@ -17,9 +17,9 @@ public class Record {
 
     @ManyToOne
     private Genre genre;
-    @ManyToOne
+    @OneToOne
     private Tone tone;
-    @ManyToOne
+    @OneToOne
     private Mood mood;
 
     public Record() {

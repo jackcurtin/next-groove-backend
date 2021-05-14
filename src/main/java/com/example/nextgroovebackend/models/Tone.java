@@ -17,9 +17,9 @@ public class Tone {
     @Column
     private int minimalDenseValue;
 
-    @OneToMany (mappedBy = "tone", orphanRemoval = true)
+    @OneToOne
     @JsonIgnore
-    private List<Record> recordList;
+    private Record record;
 
     public Tone() {
     }
@@ -53,12 +53,12 @@ public class Tone {
         this.minimalDenseValue = minimalDenseValue;
     }
 
-    public List<Record> getRecordList() {
-        return recordList;
+    public Record getRecord() {
+        return record;
     }
 
-    public void setRecordList(List<Record> recordList) {
-        this.recordList = recordList;
+    public void setRecord(Record record) {
+        this.record = record;
     }
 
     @Override

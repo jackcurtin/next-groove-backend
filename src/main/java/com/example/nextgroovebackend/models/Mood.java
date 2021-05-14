@@ -17,9 +17,9 @@ public class Mood {
     @Column
     private int upbeatDepressingValue;
 
-    @OneToMany(mappedBy = "mood", orphanRemoval = true)
+    @OneToOne
     @JsonIgnore
-    private List<Record> recordList;
+    private Record record;
 
     public Mood() {
     }
@@ -53,12 +53,12 @@ public class Mood {
         this.upbeatDepressingValue = upbeatDepressingValue;
     }
 
-    public List<Record> getRecordList() {
-        return recordList;
+    public Record getRecord() {
+        return record;
     }
 
-    public void setRecordList(List<Record> recordList) {
-        this.recordList = recordList;
+    public void setRecord(Record record) {
+        this.record = record;
     }
 
     @Override
