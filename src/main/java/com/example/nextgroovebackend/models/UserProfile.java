@@ -86,21 +86,7 @@ public class UserProfile {
         this.recordCollection = recordCollection;
     }
 
-    public List<Tone> getUserToneRatings() {
-        return userToneRatings;
-    }
 
-    public void setUserToneRatings(List<Tone> userToneRatings) {
-        this.userToneRatings = userToneRatings;
-    }
-
-    public List<Mood> getUserMoodRatings() {
-        return userMoodRatings;
-    }
-
-    public void setUserMoodRatings(List<Mood> userMoodRatings) {
-        this.userMoodRatings = userMoodRatings;
-    }
 
     @Override
     public String toString() {

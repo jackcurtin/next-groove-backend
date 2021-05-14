@@ -3,6 +3,7 @@ package com.example.nextgroovebackend.controllers;
 import com.example.nextgroovebackend.models.Record;
 import com.example.nextgroovebackend.models.UserProfile;
 import com.example.nextgroovebackend.services.UserProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public class UserProfileController {
     private UserProfileService userProfileService;
 
+    @Autowired
     public void setUserProfileService(UserProfileService userProfileService) {
         this.userProfileService = userProfileService;
     }

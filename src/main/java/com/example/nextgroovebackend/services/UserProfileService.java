@@ -6,10 +6,12 @@ import com.example.nextgroovebackend.models.UserProfile;
 import com.example.nextgroovebackend.repositories.RecordRepository;
 import com.example.nextgroovebackend.repositories.UserProfileRepository;
 import com.example.nextgroovebackend.security.MyUserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +21,12 @@ public class UserProfileService {
     private RecordRepository recordRepository;
     private UserService userService;
 
+    @Autowired
     public void setUserProfileRepository(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
     }
 
+    @Autowired
     public void setRecordRepository(RecordRepository recordRepository) {
         this.recordRepository = recordRepository;
     }
@@ -44,8 +48,11 @@ public class UserProfileService {
             throw new InformationNotFoundException("No record in database with id:" + recordId);
         } else {
             List<Record> myCollection = userProfile.getRecordCollection();
-            if(myCollection.contains(recordOptional.get())){
-                myCollection.remove(recordOptional.get());
+            Record record = recordOptional.get();
+            System.out.println("current record to delete: " + record);
+            System.out.println("current collection: " + myCollection);
+            if(myCollection.contains(recordId)){
+                myCollection.remove(recordId);
             }else{
                 throw new InformationNotFoundException(recordOptional.get().getTitle() + " is not in your collection.");
             }
