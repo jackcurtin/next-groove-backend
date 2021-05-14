@@ -90,5 +90,4 @@ public class UserService {
         User user = userRepository.findByEmail(userDetails.getUsername()).get();
         return userProfileRepository.findUserProfileById(user.getUserProfile().getId());
     }
-
 }
