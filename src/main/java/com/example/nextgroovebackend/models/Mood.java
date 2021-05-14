@@ -17,7 +17,7 @@ public class Mood {
     @Column
     private int upbeatDepressingValue;
 
-    @OneToMany
+    @OneToMany(mappedBy = "mood", orphanRemoval = true)
     @JsonIgnore
     private List<Record> recordList;
 

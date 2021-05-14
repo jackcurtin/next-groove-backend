@@ -17,7 +17,7 @@ public class Tone {
     @Column
     private int minimalDenseValue;
 
-    @OneToMany
+    @OneToMany (mappedBy = "tone", orphanRemoval = true)
     @JsonIgnore
     private List<Record> recordList;
 

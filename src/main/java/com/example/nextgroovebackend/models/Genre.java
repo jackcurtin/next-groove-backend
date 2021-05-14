@@ -15,7 +15,7 @@ public class Genre {
     @Column
     private String name;
 
-    @OneToMany
+    @OneToMany (mappedBy = "genre", orphanRemoval = true)
     @JsonIgnore
     private List<Record> recordList;
 
