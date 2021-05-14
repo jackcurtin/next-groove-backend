@@ -21,6 +21,10 @@ public class Tone {
     @JsonIgnore
     private Record record;
 
+    @ManyToMany(mappedBy = "userToneRatings")
+    @JsonIgnore
+    private List<UserProfile> userToneRatings;
+
     public Tone() {
     }
 
@@ -59,6 +63,14 @@ public class Tone {
 
     public void setRecord(Record record) {
         this.record = record;
+    }
+
+    public List<UserProfile> getUserToneRatings() {
+        return userToneRatings;
+    }
+
+    public void setUserToneRatings(List<UserProfile> userToneRatings) {
+        this.userToneRatings = userToneRatings;
     }
 
     @Override

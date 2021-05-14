@@ -31,6 +31,22 @@ public class UserProfile {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Record> recordCollection;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_tone_ratings",
+            joinColumns = @JoinColumn(name = "profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "tone_rating_id"))
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Tone> userToneRatings;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_mood_ratings",
+            joinColumns = @JoinColumn(name = "profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "mood_rating_id"))
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Mood> userMoodRatings;
+
     public UserProfile() {
     }
 
@@ -68,6 +84,22 @@ public class UserProfile {
 
     public void setRecordCollection(List<Record> recordCollection) {
         this.recordCollection = recordCollection;
+    }
+
+    public List<Tone> getUserToneRatings() {
+        return userToneRatings;
+    }
+
+    public void setUserToneRatings(List<Tone> userToneRatings) {
+        this.userToneRatings = userToneRatings;
+    }
+
+    public List<Mood> getUserMoodRatings() {
+        return userMoodRatings;
+    }
+
+    public void setUserMoodRatings(List<Mood> userMoodRatings) {
+        this.userMoodRatings = userMoodRatings;
     }
 
     @Override

@@ -42,7 +42,7 @@ public class RecordController {
     }
 
     @PutMapping("/rate/{recordId}")
-    public Record rateRecord(@PathVariable Long recordId, @RequestBody Map <String, String> ratingObject) {
+    public void rateRecord(@PathVariable Long recordId, @RequestBody Map <String, String> ratingObject) {
         System.out.println("Record controller calling rateRecord");
     }
 }

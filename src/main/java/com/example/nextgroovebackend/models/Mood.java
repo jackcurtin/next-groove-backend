@@ -22,6 +22,10 @@ public class Mood {
     @JsonIgnore
     private Record record;
 
+    @ManyToMany(mappedBy = "userMoodRatings")
+    @JsonIgnore
+    private List<UserProfile> userMoodRatings;
+
     public Mood() {
     }
 
@@ -60,6 +64,14 @@ public class Mood {
 
     public void setRecord(Record record) {
         this.record = record;
+    }
+
+    public List<UserProfile> getUserMoodRatings() {
+        return userMoodRatings;
+    }
+
+    public void setUserMoodRatings(List<UserProfile> userMoodRatings) {
+        this.userMoodRatings = userMoodRatings;
     }
 
     @Override
