@@ -1,9 +1,11 @@
 package com.example.nextgroovebackend.services;
 
+import com.example.nextgroovebackend.exceptions.CannotBeNullException;
 import com.example.nextgroovebackend.exceptions.InformationExistsException;
 import com.example.nextgroovebackend.exceptions.InformationNotFoundException;
 import com.example.nextgroovebackend.models.Genre;
 import com.example.nextgroovebackend.models.Record;
+import com.example.nextgroovebackend.models.Tone;
 import com.example.nextgroovebackend.repositories.GenreRepository;
 import com.example.nextgroovebackend.repositories.MoodRepository;
 import com.example.nextgroovebackend.repositories.RecordRepository;
@@ -48,6 +50,7 @@ public class RecordService {
     }
 
     private Record assembleOrUpdateRecord(Record record, Map <String, String> recordObject){
+        System.out.println("Record service calling Assemble or Update Record");
         Optional<Genre> genreOptional = genreRepository.findByName(recordObject.get("genre"));
         if(genreOptional.isEmpty()){
             throw new InformationNotFoundException("Genre not found in our database.");
@@ -61,7 +64,14 @@ public class RecordService {
         }
     }
 
-    private createTone(Map <String, String> toneObject){
-
+    private Tone createTone(Map <String, String> toneObject){
+        if(toneObject.get("mdValue").isEmpty() || toneObject.get("hiLoValue").isEmpty()){
+            throw new CannotBeNullException("Tone values are required for record creation");
+        } else{
+            int md = Integer.parseInt(toneObject.get("mdValue"));
+            int hiLo = Integer.parseInt(toneObject.get("hiLoValue"));
+            Tone newTone = new Tone(hiLo, md);
+            return toneRepository.save(newTone);
+        }
     }
 }
