@@ -35,9 +35,14 @@ public class RecordController {
         return recordService.getRecord(recordId);
     }
 
-    @PostMapping("browse/{recordId}/addToCollection")
+    @PostMapping("/addToCollection/{recordId}")
     public String addToCollection(@PathVariable Long recordId){
         System.out.println("Record controller calling addToCollection");
         return recordService.addToCollection(recordId);
+    }
+
+    @PutMapping("/rate/{recordId}")
+    public Record rateRecord(@PathVariable Long recordId, @RequestBody Map <String, String> ratingObject) {
+        System.out.println("Record controller calling rateRecord");
     }
 }

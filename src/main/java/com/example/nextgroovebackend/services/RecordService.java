@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -98,6 +99,21 @@ public class RecordService {
             userProfile.getRecordCollection().add(recordOptional.get());
             userProfileRepository.save(userProfile);
             return recordOptional.get().getTitle() + " - " + recordOptional.get().getArtist() + " added to your collection";
+        }
+    }
+
+    public Record rateRecord(Long recordId, Map <String, String> ratingObject) {
+        System.out.println("Record service calling rateRecord");
+        Optional<Record> recordOptional = recordRepository.findById(recordId);
+        if (recordOptional.isEmpty()){
+            throw new InformationNotFoundException("No record in database with id:" + recordId);
+        } else {
+            int userMDValue = Integer.parseInt(ratingObject.get("mdValue"));
+            int userHiLoValue = Integer.parseInt(ratingObject.get("hiLoValue"));
+            int userFSValue = Integer.parseInt(ratingObject.get("fsValue"));
+            int userUDValue = Integer.parseInt(ratingObject.get("udValue"));
+            Tone userToneRating = new Tone(userHiLoValue, userMDValue);
+            Mood userMoodRating = new Mood(userFSValue, userUDValue);
         }
     }
 }
