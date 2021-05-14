@@ -23,13 +23,13 @@ public class RecordController {
         return recordService.createRecord(newRecordObject);
     }
 
-    @GetMapping
+    @GetMapping("/browse/")
     public List<Record> getAllRecords(){
         System.out.println("Record controller calling getAllRecords");
         return recordService.getAllRecords();
     }
 
-    @GetMapping("/view/{recordId}")
+    @GetMapping("/browse/{recordId}")
     public Record getRecord(@PathVariable Long recordId){
         System.out.println("Record controller calling getRecord");
         return recordService.getRecord(recordId);
