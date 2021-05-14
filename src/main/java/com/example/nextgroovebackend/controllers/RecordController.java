@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="/records")
@@ -26,5 +27,11 @@ public class RecordController {
     public List<Record> getAllRecords(){
         System.out.println("Record controller calling getAllRecords");
         return recordService.getAllRecords();
+    }
+
+    @GetMapping("/view/{recordId}")
+    public Record getRecord(@PathVariable Long recordId){
+        System.out.println("Record controller calling getRecord");
+        return recordService.getRecord(recordId);
     }
 }

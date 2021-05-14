@@ -13,6 +13,7 @@ import com.example.nextgroovebackend.repositories.RecordRepository;
 import com.example.nextgroovebackend.repositories.ToneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Map;
@@ -73,5 +74,15 @@ public class RecordService {
             throw new InformationNotFoundException("No records here, my friend.");
         }
         return allRecords;
+    }
+
+    public Record getRecord(Long recordId){
+        System.out.println("Record service calling getRecord");
+        Optional <Record> recordOptional = recordRepository.findById(recordId);
+        if (recordOptional.isEmpty()){
+            throw new InformationNotFoundException("No record in database with id:" + recordId);
+        }else{
+            return recordOptional.get();
+        }
     }
 }
