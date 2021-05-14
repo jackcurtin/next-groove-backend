@@ -35,10 +35,4 @@ public class UserController {
         System.out.println("User controller calling createUserProfile");
         return userService.createUserProfile(userProfileObject);
     }
-
-    @GetMapping("/profile")
-    public UserProfile getUserProfile(){
-        System.out.println("User controller calling getUserProfile");
-        return userService.getUserProfile();
-    }
 }
