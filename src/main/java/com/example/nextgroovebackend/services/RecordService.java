@@ -1,6 +1,7 @@
 package com.example.nextgroovebackend.services;
 
 import com.example.nextgroovebackend.exceptions.InformationExistsException;
+import com.example.nextgroovebackend.exceptions.InformationNotFoundException;
 import com.example.nextgroovebackend.models.Genre;
 import com.example.nextgroovebackend.models.Record;
 import com.example.nextgroovebackend.repositories.GenreRepository;
@@ -46,7 +47,21 @@ public class RecordService {
         }
     }
 
-    private Record assembleOrUpdateRecord(Record newRecord, Map <String, String> recordObject){
-        Optional<Genre> genreOptional =
+    private Record assembleOrUpdateRecord(Record record, Map <String, String> recordObject){
+        Optional<Genre> genreOptional = genreRepository.findByName(recordObject.get("genre"));
+        if(genreOptional.isEmpty()){
+            throw new InformationNotFoundException("Genre not found in our database.");
+        } else{
+            record.setTitle(recordObject.get("title"));
+            record.setArtist(recordObject.get("artist"));
+            record.setGenre(genreOptional.get());
+            record.setTone(createTone(recordObject));
+            record.setMood(createMood(recordObject));
+            return recordRepository.save(record);
+        }
+    }
+
+    private createTone(Map <String, String> toneObject){
+
     }
 }
