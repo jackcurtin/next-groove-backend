@@ -3,7 +3,9 @@ package com.example.nextgroovebackend.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "records")
@@ -26,7 +28,7 @@ public class Record {
     private Mood mood;
     @ManyToMany(mappedBy = "recordCollection")
     @JsonIgnore
-    private List<UserProfile> recordOwners;
+    private Set<UserProfile> recordOwners = new HashSet<>();
 
     public Record() {
     }
@@ -84,11 +86,11 @@ public class Record {
         this.mood = mood;
     }
 
-    public List<UserProfile> getRecordOwners() {
+    public Set<UserProfile> getRecordOwners() {
         return recordOwners;
     }
 
-    public void setRecordOwners(List<UserProfile> recordOwners) {
+    public void setRecordOwners(Set<UserProfile> recordOwners) {
         this.recordOwners = recordOwners;
     }
 

@@ -11,9 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.EntityManager;
+import java.util.*;
 
 @Service
 public class UserProfileService {
@@ -31,7 +30,7 @@ public class UserProfileService {
         this.recordRepository = recordRepository;
     }
 
-    public List<Record> getEntireCollection(){
+    public Set<Record> getEntireCollection(){
         UserProfile userProfile = getUserProfile();
         if (userProfile.getRecordCollection().isEmpty()){
             throw new InformationNotFoundException("Your collection is empty.");
@@ -47,14 +46,16 @@ public class UserProfileService {
         if (recordOptional.isEmpty()){
             throw new InformationNotFoundException("No record in database with id:" + recordId);
         } else {
-            List<Record> myCollection = userProfile.getRecordCollection();
+            Set<Record> myCollection = userProfile.getRecordCollection();
             Record record = recordOptional.get();
             System.out.println("current record to delete: " + record);
             System.out.println("current collection: " + myCollection);
-            if(myCollection.contains(recordId)){
-                myCollection.remove(recordId);
+            userProfile.removeFromCollection(record);
+            System.out.println("after delete collection: " + myCollection);
+            if(myCollection.contains(record)){
+                myCollection.remove(record);
             }else{
-                throw new InformationNotFoundException(recordOptional.get().getTitle() + " is not in your collection.");
+                throw new InformationNotFoundException(record.getTitle() + " is not in your collection.");
             }
         }
 

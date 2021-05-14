@@ -5,7 +5,9 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "profiles")
@@ -23,13 +25,13 @@ public class UserProfile {
     @JsonIgnore
     private User user;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_collections",
             joinColumns = @JoinColumn(name = "profile_id"),
             inverseJoinColumns = @JoinColumn(name = "record_id"))
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Record> recordCollection;
+    private Set<Record> recordCollection = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -78,15 +80,18 @@ public class UserProfile {
         this.user = user;
     }
 
-    public List<Record> getRecordCollection() {
+    public Set<Record> getRecordCollection() {
         return recordCollection;
     }
 
-    public void setRecordCollection(List<Record> recordCollection) {
+    public void setRecordCollection(Set<Record> recordCollection) {
         this.recordCollection = recordCollection;
     }
 
-
+    public void removeFromCollection(Record record){
+        this.recordCollection.remove(record);
+        record.getRecordOwners().remove(this);
+    }
 
     @Override
     public String toString() {
