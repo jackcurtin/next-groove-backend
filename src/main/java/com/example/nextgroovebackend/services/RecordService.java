@@ -14,6 +14,7 @@ import com.example.nextgroovebackend.repositories.ToneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -63,5 +64,14 @@ public class RecordService {
             record.setTone(toneService.createTone(recordObject));
             return recordRepository.save(record);
         }
+    }
+
+    public List<Record> getAllRecords(){
+        System.out.println("Record service calling getAllRecords");
+        List<Record> allRecords = recordRepository.findAll();
+        if(allRecords.isEmpty()){
+            throw new InformationNotFoundException("No records here, my friend.");
+        }
+        return allRecords;
     }
 }

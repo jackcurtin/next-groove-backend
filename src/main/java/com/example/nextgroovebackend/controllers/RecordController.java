@@ -3,11 +3,9 @@ package com.example.nextgroovebackend.controllers;
 import com.example.nextgroovebackend.models.Record;
 import com.example.nextgroovebackend.services.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,5 +20,11 @@ public class RecordController {
     public Record createRecord(@RequestBody Map<String, String> newRecordObject){
         System.out.println("Record controller calling createRecord");
         return recordService.createRecord(newRecordObject);
+    }
+
+    @GetMapping
+    public List<Record> getAllRecords(){
+        System.out.println("Record controller calling getAllRecords");
+        return recordService.getAllRecords();
     }
 }
