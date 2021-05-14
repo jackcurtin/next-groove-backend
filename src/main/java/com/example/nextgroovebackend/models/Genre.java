@@ -9,6 +9,7 @@ import java.util.List;
 @Table(name = "genres")
 public class Genre {
     @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -19,8 +20,7 @@ public class Genre {
     @JsonIgnore
     private List<Record> recordList;
 
-    public Genre() {
-    }
+    public Genre() { }
 
     public Genre(String name) {
         this.name = name;
