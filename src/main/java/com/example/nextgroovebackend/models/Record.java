@@ -1,6 +1,9 @@
 package com.example.nextgroovebackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "records")
@@ -21,6 +24,9 @@ public class Record {
     private Tone tone;
     @OneToOne
     private Mood mood;
+    @ManyToMany(mappedBy = "recordCollection")
+    @JsonIgnore
+    private List<UserProfile> recordOwners;
 
     public Record() {
     }
@@ -76,6 +82,14 @@ public class Record {
 
     public void setMood(Mood mood) {
         this.mood = mood;
+    }
+
+    public List<UserProfile> getRecordOwners() {
+        return recordOwners;
+    }
+
+    public void setRecordOwners(List<UserProfile> recordOwners) {
+        this.recordOwners = recordOwners;
     }
 
     @Override

@@ -3,15 +3,11 @@ package com.example.nextgroovebackend.services;
 import com.example.nextgroovebackend.exceptions.CannotBeNullException;
 import com.example.nextgroovebackend.exceptions.InformationExistsException;
 import com.example.nextgroovebackend.exceptions.InformationNotFoundException;
-import com.example.nextgroovebackend.models.Genre;
-import com.example.nextgroovebackend.models.Mood;
-import com.example.nextgroovebackend.models.Record;
-import com.example.nextgroovebackend.models.Tone;
-import com.example.nextgroovebackend.repositories.GenreRepository;
-import com.example.nextgroovebackend.repositories.MoodRepository;
-import com.example.nextgroovebackend.repositories.RecordRepository;
-import com.example.nextgroovebackend.repositories.ToneRepository;
+import com.example.nextgroovebackend.models.*;
+import com.example.nextgroovebackend.repositories.*;
+import com.example.nextgroovebackend.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -23,13 +19,17 @@ import java.util.Optional;
 public class RecordService {
     private RecordRepository recordRepository;
     private GenreRepository genreRepository;
+    private UserProfileRepository userProfileRepository;
     private ToneService toneService;
     private MoodService moodService;
+
 
     @Autowired
     public void setRecordRepository (RecordRepository recordRepository) {this.recordRepository = recordRepository;}
     @Autowired
     public void setGenreRepository (GenreRepository genreRepository) {this.genreRepository = genreRepository;}
+    @Autowired
+    public void setUserProfileRepository (UserProfileRepository userProfileRepository) {this.userProfileRepository = userProfileRepository;}
     @Autowired
     public void setToneService (ToneService toneService) {this.toneService = toneService;}
     @Autowired
@@ -83,6 +83,21 @@ public class RecordService {
             throw new InformationNotFoundException("No record in database with id:" + recordId);
         }else{
             return recordOptional.get();
+        }
+    }
+
+    public String addToCollection(Long recordId){
+        System.out.println("Record service calling addToCollection");
+        Optional <Record> recordOptional = recordRepository.findById(recordId);
+        if(recordOptional.isEmpty()){
+            throw new InformationNotFoundException("No record in database with id:" + recordId);
+        }else{
+            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            UserProfile userProfile = userDetails.getUser().getUserProfile();
+            recordOptional.get().getRecordOwners().add(userProfile);
+            userProfile.getRecordCollection().add(recordOptional.get());
+            userProfileRepository.save(userProfile);
+            return recordOptional.get().getTitle() + " - " + recordOptional.get().getArtist() + " added to your collection";
         }
     }
 }

@@ -34,4 +34,10 @@ public class RecordController {
         System.out.println("Record controller calling getRecord");
         return recordService.getRecord(recordId);
     }
+
+    @PostMapping("browse/{recordId}/addToCollection")
+    public String addToCollection(@PathVariable Long recordId){
+        System.out.println("Record controller calling addToCollection");
+        return recordService.addToCollection(recordId);
+    }
 }

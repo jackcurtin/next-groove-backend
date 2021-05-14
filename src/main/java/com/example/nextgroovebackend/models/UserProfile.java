@@ -1,8 +1,11 @@
 package com.example.nextgroovebackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "profiles")
@@ -19,6 +22,14 @@ public class UserProfile {
     @OneToOne
     @JsonIgnore
     private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_collections",
+            joinColumns = @JoinColumn(name = "profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "record_id"))
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Record> recordCollection;
 
     public UserProfile() {
     }
@@ -49,6 +60,14 @@ public class UserProfile {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Record> getRecordCollection() {
+        return recordCollection;
+    }
+
+    public void setRecordCollection(List<Record> recordCollection) {
+        this.recordCollection = recordCollection;
     }
 
     @Override
