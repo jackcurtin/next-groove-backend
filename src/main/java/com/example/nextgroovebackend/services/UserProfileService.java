@@ -30,7 +30,7 @@ public class UserProfileService {
         this.recordRepository = recordRepository;
     }
 
-    public Set<Record> getEntireCollection(){
+    public List<Record> getEntireCollection(){
         UserProfile userProfile = getUserProfile();
         if (userProfile.getRecordCollection().isEmpty()){
             throw new InformationNotFoundException("Your collection is empty.");
@@ -46,32 +46,37 @@ public class UserProfileService {
         if (recordOptional.isEmpty()){
             throw new InformationNotFoundException("No record in database with id:" + recordId);
         } else {
-            Set<Record> myCollection = userProfile.getRecordCollection();
-            Record record = recordOptional.get();
-            System.out.println("current record to delete: " + record);
-            System.out.println("current collection: " + myCollection);
-            System.out.println(record.getRecordOwners());
-            userProfile.getRecordCollection().remove(recordRepository.findById(recordId));
-            record.getRecordOwners().remove(userProfile);
-            myCollection.forEach(copy -> {
-                if(copy.equals(record)){
-                    myCollection.remove(copy);
-                }
-            });
-            record.getRecordOwners().forEach(owner -> {
-                if (owner.equals(userProfile)){
-                    record.getRecordOwners().remove(owner);
-                }
-            });
-            userProfileRepository.save(userProfile);
-            recordRepository.save(record);
-            System.out.println("after delete collection: " + userProfile.getRecordCollection());
-            System.out.println(record.getRecordOwners());
-            if(userProfile.getRecordCollection().contains(recordRepository.findById(recordId))){
-                myCollection.remove(record);
-            }else{
-                throw new InformationNotFoundException(record.getTitle() + " is not in your collection.");
+            List<Record> myCollection = userProfile.getRecordCollection();
+            Record targetRecord = recordOptional.get();
+
+            if(myCollection.contains(targetRecord))
+                System.out.println("Contains the record");
+            else
+                System.out.println("Does not contain " + targetRecord);
+
+            Optional<Record> myCopy = myCollection.stream().filter(record -> record.equals(targetRecord)).findFirst();
+
+            if(myCopy.isPresent()){
+                myCollection.remove(myCopy);
+                userProfileRepository.save(userProfile);
             }
+            else
+                System.out.println("Record not found.");
+
+            System.out.println(myCollection);
+
+//            System.out.println("current record to delete: " + record);
+//            System.out.println("current collection: " + myCollection);
+//            System.out.println(record.getRecordOwners());
+//            userProfile.getRecordCollection().remove(recordRepository.findById(recordId));
+//            record.getRecordOwners().remove(userProfile);
+//            System.out.println("after delete collection: " + userProfile.getRecordCollection());
+//            System.out.println(record.getRecordOwners());
+//            if(userProfile.getRecordCollection().contains(recordRepository.findById(recordId))){
+//                myCollection.remove(record);
+//            }else{
+//                throw new InformationNotFoundException(record.getTitle() + " is not in your collection.");
+//            }
         }
 
     }

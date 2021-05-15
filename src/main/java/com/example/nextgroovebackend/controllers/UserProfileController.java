@@ -26,7 +26,7 @@ public class UserProfileController {
     }
 
     @GetMapping("/collection")
-    public Set<Record> getEntireCollection(){
+    public List<Record> getEntireCollection(){
         System.out.println("UserProfile controller calling getEntireCollection");
         return userProfileService.getEntireCollection();
     }

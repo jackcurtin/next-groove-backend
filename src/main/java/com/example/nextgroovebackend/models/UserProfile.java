@@ -33,7 +33,7 @@ public class UserProfile {
             joinColumns = @JoinColumn(name = "profile_id"),
             inverseJoinColumns = @JoinColumn(name = "record_id"))
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<Record> recordCollection = new HashSet<>();
+    private List<Record> recordCollection;
 
     @ManyToMany
     @JoinTable(
@@ -82,11 +82,11 @@ public class UserProfile {
         this.user = user;
     }
 
-    public Set<Record> getRecordCollection() {
+    public List<Record> getRecordCollection() {
         return recordCollection;
     }
 
-    public void setRecordCollection(Set<Record> recordCollection) {
+    public void setRecordCollection(List<Record> recordCollection) {
         this.recordCollection = recordCollection;
     }
 

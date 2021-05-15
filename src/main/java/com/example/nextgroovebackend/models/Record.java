@@ -28,7 +28,7 @@ public class Record {
     private Mood mood;
     @ManyToMany(mappedBy = "recordCollection")
     @JsonIgnore
-    private Set<UserProfile> recordOwners = new HashSet<>();
+    private List<UserProfile> recordOwners;
 
     public Record() {
     }
@@ -86,11 +86,11 @@ public class Record {
         this.mood = mood;
     }
 
-    public Set<UserProfile> getRecordOwners() {
+    public List<UserProfile> getRecordOwners() {
         return recordOwners;
     }
 
-    public void setRecordOwners(Set<UserProfile> recordOwners) {
+    public void setRecordOwners(List<UserProfile> recordOwners) {
         this.recordOwners = recordOwners;
     }
 
@@ -101,5 +101,15 @@ public class Record {
                 ", title='" + title + '\'' +
                 ", artist='" + artist + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        System.out.println("override equals method running with ::: " + obj);
+        if(!(obj instanceof Record))
+            return false;
+        Record objectToCompare = (Record) obj;
+        return objectToCompare.title.equals(this.title) && objectToCompare.artist.equals(this.artist) &&
+                (objectToCompare.id == this.id);
     }
 }
