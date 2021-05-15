@@ -3,6 +3,7 @@ package com.example.nextgroovebackend.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -25,11 +26,13 @@ public class UserProfile {
     @JsonIgnore
     private User user;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.DELETE})
     @JoinTable(
             name = "user_collections",
             joinColumns = @JoinColumn(name = "profile_id"),
             inverseJoinColumns = @JoinColumn(name = "record_id"))
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Record> recordCollection = new HashSet<>();
 
     @ManyToMany

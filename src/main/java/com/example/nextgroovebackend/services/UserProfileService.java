@@ -50,9 +50,24 @@ public class UserProfileService {
             Record record = recordOptional.get();
             System.out.println("current record to delete: " + record);
             System.out.println("current collection: " + myCollection);
-            userProfile.removeFromCollection(record);
-            System.out.println("after delete collection: " + myCollection);
-            if(myCollection.contains(record)){
+            System.out.println(record.getRecordOwners());
+            userProfile.getRecordCollection().remove(recordRepository.findById(recordId));
+            record.getRecordOwners().remove(userProfile);
+            myCollection.forEach(copy -> {
+                if(copy.equals(record)){
+                    myCollection.remove(copy);
+                }
+            });
+            record.getRecordOwners().forEach(owner -> {
+                if (owner.equals(userProfile)){
+                    record.getRecordOwners().remove(owner);
+                }
+            });
+            userProfileRepository.save(userProfile);
+            recordRepository.save(record);
+            System.out.println("after delete collection: " + userProfile.getRecordCollection());
+            System.out.println(record.getRecordOwners());
+            if(userProfile.getRecordCollection().contains(recordRepository.findById(recordId))){
                 myCollection.remove(record);
             }else{
                 throw new InformationNotFoundException(record.getTitle() + " is not in your collection.");
