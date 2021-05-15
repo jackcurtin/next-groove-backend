@@ -30,7 +30,6 @@ public class UserProfile {
             name = "user_collections",
             joinColumns = @JoinColumn(name = "profile_id"),
             inverseJoinColumns = @JoinColumn(name = "record_id"))
-    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Record> recordCollection = new HashSet<>();
 
     @ManyToMany
