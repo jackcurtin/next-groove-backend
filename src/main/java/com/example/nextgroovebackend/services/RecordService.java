@@ -53,6 +53,22 @@ public class RecordService {
         }
     }
 
+    public Record createRecordFromJson(Record recordObject){
+        System.out.println("Record service is calling createRecord");
+        Optional <Record> recordOptional = recordRepository.findByTitleAndArtist(recordObject.getTitle(), recordObject.getArtist());
+        if(recordOptional.isPresent()){
+            throw new InformationExistsException("The following record already appears in our database: \n" +
+                    recordOptional.get().getTitle() + " -- " + recordOptional.get().getArtist());
+        }else{
+            Optional<Genre> genreOptional = genreRepository.findByName(recordObject.getGenre().getName());
+            if(genreOptional.isEmpty()){
+                throw new InformationNotFoundException("Genre not found in database");
+            } else{
+                return recordRepository.save(recordObject);
+            }
+        }
+    }
+
     private Record assembleOrUpdateRecord(Record record, Map <String, String> recordObject){
         System.out.println("Record service calling Assemble or Update Record");
         Optional<Genre> genreOptional = genreRepository.findByName(recordObject.get("genre"));

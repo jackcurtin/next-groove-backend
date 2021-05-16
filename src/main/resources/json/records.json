@@ -1,0 +1,39 @@
+[
+  {
+    "title":"New Plastic Ideas",
+    "artist":"Unwound",
+    "genre":"rock",
+    "mdValue":"4",
+    "hiLoValue":"4",
+    "fsValue":"3",
+    "udValue":"0"
+  },
+
+  {
+    "title":"Daydream Nation",
+    "artist":"Sonic Youth",
+    "genre":"rock",
+    "mdValue":"4",
+    "hiLoValue":"4",
+    "fsValue":"3",
+    "udValue":"0"
+  },
+  {
+    "title":"Roman Candle",
+    "artist":"Elliot Smith",
+    "genre":"rock",
+    "mdValue":"4",
+    "hiLoValue":"4",
+    "fsValue":"3",
+    "udValue":"0"
+  },
+  {
+    "title":"Beat",
+    "artist":"Bowery Electric",
+    "genre": "rock",
+    "mdValue":"4",
+    "hiLoValue":"4",
+    "fsValue":"3",
+    "udValue":"0"
+  }
+]
