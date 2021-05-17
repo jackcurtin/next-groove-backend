@@ -26,6 +26,7 @@ public class UserProfileService {
     private ToneRepository toneRepository;
     private MoodRepository moodRepository;
     private UserService userService;
+    private RecordService recordService;
 
     @Autowired
     public void setUserProfileRepository(UserProfileRepository userProfileRepository) {this.userProfileRepository = userProfileRepository;}
@@ -37,7 +38,8 @@ public class UserProfileService {
     public void setToneRepository(ToneRepository toneRepository) { this.toneRepository = toneRepository; }
     @Autowired
     public void setMoodRepository(MoodRepository moodRepository) { this.moodRepository = moodRepository; }
-
+    @Autowired
+    public void setRecordService(RecordService recordService) { this.recordService = recordService; }
 
     public List<Record> getEntireCollection(){
         UserProfile userProfile = getUserProfile();
@@ -116,6 +118,7 @@ public class UserProfileService {
                     newMood.setUserProfile(userProfile);
                     toneRepository.save(newTone);
                     moodRepository.save(newMood);
+                    recordService.updateRecordAvgRatings(recordId);
                     return recordOptional.get().getTitle() + " have been given the following rating: " + newTone + "\n" + newMood;
                 }
             }

@@ -40,4 +40,10 @@ public class RecordController {
         System.out.println("Record controller calling addToCollection");
         return recordService.addToCollection(recordId);
     }
+
+//    @PutMapping("/browse/{recordId}")
+//    public Record updateRecord(@PathVariable Long recordId){
+//        System.out.println("Record controller calling updateRecord");
+//        return recordService.updateRecord(recordId);
+//    }
 }

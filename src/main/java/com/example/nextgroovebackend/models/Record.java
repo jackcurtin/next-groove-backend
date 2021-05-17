@@ -3,6 +3,7 @@ package com.example.nextgroovebackend.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -104,32 +105,68 @@ public class Record {
         return avgHLVal;
     }
 
-    public void setAvgHLVal(int avgHLVal) {
-        this.avgHLVal = avgHLVal;
+    public void setAvgHLVal() {
+        System.out.println("setting HL val");
+        ArrayList<Integer> hifiRatings = new ArrayList<Integer>();
+        this.toneRatings.forEach(rating -> {
+            hifiRatings.add(rating.getHifiLofiValue());
+        });
+        int sum = 0;
+        for(int i = 0; i < hifiRatings.size(); i++){
+            sum = sum + hifiRatings.get(i);
+        }
+        this.avgHLVal = (sum / hifiRatings.size());
     }
 
     public int getAvgMDVal() {
         return avgMDVal;
     }
 
-    public void setAvgMDVal(int avgMDVal) {
-        this.avgMDVal = avgMDVal;
+    public void setAvgMDVal() {
+        System.out.println("setting MD val");
+        ArrayList<Integer> mdRatings = new ArrayList<Integer>();
+        this.toneRatings.forEach(rating -> {
+            mdRatings.add(rating.getMinimalDenseValue());
+        });
+        int sum = 0;
+        for(int i = 0; i < mdRatings.size(); i++){
+            sum = sum + mdRatings.get(i);
+        }
+        this.avgMDVal = (sum / mdRatings.size());
     }
 
     public int getAvgFSVal() {
         return avgFSVal;
     }
 
-    public void setAvgFSVal(int avgFSVal) {
-        this.avgFSVal = avgFSVal;
+    public void setAvgFSVal() {
+        System.out.println("setting FS val");
+        ArrayList<Integer> fsRatings = new ArrayList<Integer>();
+        this.moodRatings.forEach(rating -> {
+            fsRatings.add(rating.getFastSlowValue());
+        });
+        int sum = 0;
+        for(int i = 0; i < fsRatings.size(); i++){
+            sum = sum + fsRatings.get(i);
+        }
+        this.avgFSVal = (sum / fsRatings.size());
     }
 
     public int getAvgUDVal() {
         return avgUDVal;
     }
 
-    public void setAvgUDVal(int avgUDVal) {
-        this.avgUDVal = avgUDVal;
+    public void setAvgUDVal() {
+        System.out.println("setting UD val");
+        ArrayList<Integer> udRatings = new ArrayList<Integer>();
+        this.moodRatings.forEach(rating -> {
+            udRatings.add(rating.getUpbeatDepressingValue());
+        });
+        int sum = 0;
+        for(int i = 0; i < udRatings.size(); i++){
+            sum = sum + udRatings.get(i);
+        }
+        this.avgUDVal = (sum / udRatings.size());
     }
 
     public List<Mood> getMoodRatings() {
