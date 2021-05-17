@@ -1,5 +1,6 @@
 package com.example.nextgroovebackend.services;
 
+import com.example.nextgroovebackend.exceptions.InformationExistsException;
 import com.example.nextgroovebackend.exceptions.InformationNotFoundException;
 import com.example.nextgroovebackend.models.Mood;
 import com.example.nextgroovebackend.models.Record;
@@ -94,19 +95,25 @@ public class UserProfileService {
         } else {
             MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             UserProfile userProfile = userDetails.getUser().getUserProfile();
-            int userMDValue = Integer.parseInt(ratingObject.get("mdValue"));
-            int userHiLoValue = Integer.parseInt(ratingObject.get("hiLoValue"));
-            int userFSValue = Integer.parseInt(ratingObject.get("fsValue"));
-            int userUDValue = Integer.parseInt(ratingObject.get("udValue"));
-            Tone newTone = new Tone(userHiLoValue, userMDValue);
-            newTone.setRecord(recordOptional.get());
-            newTone.setUserProfile(userProfile);
-            Mood newMood = new Mood(userFSValue, userUDValue);
-            newMood.setRecord(recordOptional.get());
-            newMood.setUserProfile(userProfile);
-            toneRepository.save(newTone);
-            moodRepository.save(newMood);
-            return recordOptional.get().getTitle() + " have been given the following rating: " + newTone + "\n" + newMood;
+            Optional<Tone> toneOptional = toneRepository.findByUserProfileAndRecord(userProfile, recordOptional.get());
+            Optional<Mood> moodOptional = moodRepository.findByUserProfileAndRecord(userProfile, recordOptional.get());
+            if (toneOptional.isPresent() && moodOptional.isPresent())
+                throw new InformationExistsException("You have already rated this record!");
+            else{
+                int userMDValue = Integer.parseInt(ratingObject.get("mdValue"));
+                int userHiLoValue = Integer.parseInt(ratingObject.get("hiLoValue"));
+                int userFSValue = Integer.parseInt(ratingObject.get("fsValue"));
+                int userUDValue = Integer.parseInt(ratingObject.get("udValue"));
+                Tone newTone = new Tone(userHiLoValue, userMDValue);
+                newTone.setRecord(recordOptional.get());
+                newTone.setUserProfile(userProfile);
+                Mood newMood = new Mood(userFSValue, userUDValue);
+                newMood.setRecord(recordOptional.get());
+                newMood.setUserProfile(userProfile);
+                toneRepository.save(newTone);
+                moodRepository.save(newMood);
+                return recordOptional.get().getTitle() + " have been given the following rating: " + newTone + "\n" + newMood;
+            }
         }
     }
 }
