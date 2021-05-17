@@ -86,9 +86,20 @@ public class RecordService {
             record.setArtist(recordObject.get("artist").toUpperCase());
             record.setGenre(genreOptional.get());
             record.setCoverArtURL(recordObject.get("coverArtURL"));
-
-//            Optional<Mood> moodOptional = moodRepository.findByFastSlowValueAndAndUpbeatDepressingValue();
-            return recordRepository.save(record);
+            Optional <List<Tone>> toneRatings = toneRepository.findAllByRecordTitle(record.getTitle());
+            if (toneRatings.isEmpty()){
+                int fs = Integer.parseInt(recordObject.get("fsValue"));
+                int ud = Integer.parseInt(recordObject.get("udValue"));
+                int hl = Integer.parseInt(recordObject.get("hiLoValue"));
+                int md = Integer.parseInt(recordObject.get("md" + "Value"));
+                record.setAvgFSVal(fs);
+                record.setAvgUDVal(ud);
+                record.setAvgHLVal(hl);
+                record.setAvgMDVal(md);
+            }
+            System.out.println(record);
+            Record savedRecord = recordRepository.save(record);
+            return updateRecordAvgRatings(savedRecord.getId());
         }
     }
 
@@ -132,10 +143,10 @@ public class RecordService {
         if (recordOptional.isEmpty())
             throw new InformationNotFoundException("No record in database with id:" + recordId);
         else {
-            recordOptional.get().setAvgHLVal();
-            recordOptional.get().setAvgMDVal();
-            recordOptional.get().setAvgFSVal();
-            recordOptional.get().setAvgUDVal();
+            recordOptional.get().calcAvgHLVal();
+            recordOptional.get().calcAvgMDVal();
+            recordOptional.get().calcAvgFSVal();
+            recordOptional.get().calcAvgUDVal();
             return recordRepository.save(recordOptional.get());
         }
     }

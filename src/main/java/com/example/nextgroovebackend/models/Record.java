@@ -1,6 +1,8 @@
 package com.example.nextgroovebackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -39,10 +41,12 @@ public class Record {
 
     @OneToMany(mappedBy = "record", orphanRemoval = true)
     @JsonIgnore
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Mood> moodRatings;
 
     @OneToMany(mappedBy = "record", orphanRemoval = true)
     @JsonIgnore
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Tone> toneRatings;
 
     public Record() {
@@ -105,9 +109,13 @@ public class Record {
         return avgHLVal;
     }
 
-    public void setAvgHLVal() {
+    public void calcAvgHLVal() {
         System.out.println("setting HL val");
         ArrayList<Integer> hifiRatings = new ArrayList<Integer>();
+        Tone newTone = new Tone(this.avgHLVal, this.avgMDVal);
+        if(toneRatings.size() < 1 && !toneRatings.contains(newTone)){
+            this.toneRatings.add(newTone);
+        }
         this.toneRatings.forEach(rating -> {
             hifiRatings.add(rating.getHifiLofiValue());
         });
@@ -122,9 +130,13 @@ public class Record {
         return avgMDVal;
     }
 
-    public void setAvgMDVal() {
+    public void calcAvgMDVal() {
         System.out.println("setting MD val");
         ArrayList<Integer> mdRatings = new ArrayList<Integer>();
+        Tone newTone = new Tone(this.avgHLVal, this.avgMDVal);
+        if(toneRatings.size() < 3 && !toneRatings.contains(newTone)){
+            this.toneRatings.add(newTone);
+        }
         this.toneRatings.forEach(rating -> {
             mdRatings.add(rating.getMinimalDenseValue());
         });
@@ -139,9 +151,13 @@ public class Record {
         return avgFSVal;
     }
 
-    public void setAvgFSVal() {
+    public void calcAvgFSVal() {
         System.out.println("setting FS val");
         ArrayList<Integer> fsRatings = new ArrayList<Integer>();
+        Mood newMood = new Mood(this.avgFSVal, this.avgUDVal);
+        if(moodRatings.size() < 3 && !moodRatings.contains(newMood)){
+            this.moodRatings.add(newMood);
+        }
         this.moodRatings.forEach(rating -> {
             fsRatings.add(rating.getFastSlowValue());
         });
@@ -156,9 +172,13 @@ public class Record {
         return avgUDVal;
     }
 
-    public void setAvgUDVal() {
+    public void calcAvgUDVal() {
         System.out.println("setting UD val");
         ArrayList<Integer> udRatings = new ArrayList<Integer>();
+        Mood newMood = new Mood(this.avgFSVal, this.avgUDVal);
+        if(moodRatings.size() < 3 && !moodRatings.contains(newMood)){
+            this.moodRatings.add(newMood);
+        }
         this.moodRatings.forEach(rating -> {
             udRatings.add(rating.getUpbeatDepressingValue());
         });
@@ -167,6 +187,22 @@ public class Record {
             sum = sum + udRatings.get(i);
         }
         this.avgUDVal = (sum / udRatings.size());
+    }
+
+    public void setAvgHLVal(int avgHLVal) {
+        this.avgHLVal = avgHLVal;
+    }
+
+    public void setAvgMDVal(int avgMDVal) {
+        this.avgMDVal = avgMDVal;
+    }
+
+    public void setAvgFSVal(int avgFSVal) {
+        this.avgFSVal = avgFSVal;
+    }
+
+    public void setAvgUDVal(int avgUDVal) {
+        this.avgUDVal = avgUDVal;
     }
 
     public List<Mood> getMoodRatings() {

@@ -86,4 +86,20 @@ public class UserProfile {
         this.recordCollection.remove(record);
         record.getRecordOwners().remove(this);
     }
+
+    public Set<Mood> getMoodRatings() {
+        return moodRatings;
+    }
+
+    public void setMoodRatings(Set<Mood> moodRatings) {
+        this.moodRatings = moodRatings;
+    }
+
+    public Set<Tone> getToneRatings() {
+        return toneRatings;
+    }
+
+    public void setToneRatings(Set<Tone> toneRatings) {
+        this.toneRatings = toneRatings;
+    }
 }
