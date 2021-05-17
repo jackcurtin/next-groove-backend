@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface RecordRepository extends JpaRepository <Record, Long> {
-    Optional<Record> findByTitleAndArtist(String recordTitle, String recordArtist);
+    Optional<Record> findByTitleIgnoreCaseAndArtistIgnoreCase(String recordTitle, String recordArtist);
 }

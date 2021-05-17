@@ -40,32 +40,18 @@ public class RecordService {
         System.out.println("Record service is calling createRecord");
         String recordTitle = recordObject.get("title");
         String recordArtist = recordObject.get("artist");
-        Optional<Record> recordOptional = recordRepository.findByTitleAndArtist(recordTitle, recordArtist);
-        if(recordOptional.isPresent() &&
-                recordOptional.get().getTitle().equalsIgnoreCase(recordTitle) &&
-                recordOptional.get().getArtist().equalsIgnoreCase(recordArtist)){
-            throw new InformationExistsException("The following record already appears in our database: \n" +
-                    recordTitle + " -- " + recordArtist);
+        System.out.println(recordRepository.findByTitleIgnoreCaseAndArtistIgnoreCase(recordTitle, recordArtist));
+        Optional<Record> recordOptional = recordRepository.findByTitleIgnoreCaseAndArtistIgnoreCase(recordTitle, recordArtist);
+        if(recordOptional.isPresent()){
+            System.out.println("Updating --- " + recordOptional.get().getTitle());
+            return assembleOrUpdateRecord(recordOptional.get(), recordObject);
+//            throw new InformationExistsException("The following record already appears in our database: \n" +
+//                    recordTitle + " -- " + recordArtist);
         }
         else{
+            System.out.println("Creating new entry for " + recordObject.get("title"));
             Record newRecord = new Record();
             return assembleOrUpdateRecord(newRecord, recordObject);
-        }
-    }
-
-    public Record createRecordFromJson(Record recordObject){
-        System.out.println("Record service is calling createRecord");
-        Optional <Record> recordOptional = recordRepository.findByTitleAndArtist(recordObject.getTitle(), recordObject.getArtist());
-        if(recordOptional.isPresent()){
-            throw new InformationExistsException("The following record already appears in our database: \n" +
-                    recordOptional.get().getTitle() + " -- " + recordOptional.get().getArtist());
-        }else{
-            Optional<Genre> genreOptional = genreRepository.findByName(recordObject.getGenre().getName());
-            if(genreOptional.isEmpty()){
-                throw new InformationNotFoundException("Genre not found in database");
-            } else{
-                return recordRepository.save(recordObject);
-            }
         }
     }
 
@@ -135,6 +121,22 @@ public class RecordService {
 //            userProfile.
 //            userProfile.getUserToneRatings().add(userToneRating);
 //            userProfile.getUserMoodRatings().add(userMoodRating);
+//        }
+//    }
+
+//    public Record createRecordFromJson(Record recordObject){
+//        System.out.println("Record service is calling createRecord");
+//        Optional <Record> recordOptional = recordRepository.findByTitleAndArtist(recordObject.getTitle(), recordObject.getArtist());
+//        if(recordOptional.isPresent()){
+//            throw new InformationExistsException("The following record already appears in our database: \n" +
+//                    recordOptional.get().getTitle() + " -- " + recordOptional.get().getArtist());
+//        }else{
+//            Optional<Genre> genreOptional = genreRepository.findByName(recordObject.getGenre().getName());
+//            if(genreOptional.isEmpty()){
+//                throw new InformationNotFoundException("Genre not found in database");
+//            } else{
+//                return recordRepository.save(recordObject);
+//            }
 //        }
 //    }
 }
