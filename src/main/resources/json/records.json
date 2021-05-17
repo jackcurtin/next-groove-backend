@@ -1,7 +1,7 @@
 [
   {
-    "title":"New PlaSTic Ideas",
-    "artist":"Unwound",
+    "title":"NEW PLASTIC IDEAS",
+    "artist":"UNWOUND",
     "genre":"rock",
     "mdValue":"4",
     "hiLoValue":"4",
@@ -10,8 +10,8 @@
   },
 
   {
-    "title":"daydream nation",
-    "artist":"Sonic Youth",
+    "title":"DAYDREAM NATION",
+    "artist":"SONIC YOUTH",
     "genre":"rock",
     "mdValue":"4",
     "hiLoValue":"4",
@@ -19,8 +19,8 @@
     "udValue":"0"
   },
   {
-    "title":"Roman Candle",
-    "artist":"Elliot Smith",
+    "title":"ROMAN CANDLE",
+    "artist":"ELLIOT SMITH",
     "genre":"rock",
     "mdValue":"4",
     "hiLoValue":"4",
@@ -28,12 +28,12 @@
     "udValue":"0"
   },
   {
-    "title":"BeAt",
-    "artist":"Bowery Electric",
+    "title":"beat",
+    "artist":"BOWERY ELECTRIC",
     "genre": "rock",
-    "mdValue":"4",
-    "hiLoValue":"4",
-    "fsValue":"3",
-    "udValue":"0"
+    "mdValue":"2",
+    "hiLoValue":"2",
+    "fsValue":"2",
+    "udValue":"4"
   }
 ]

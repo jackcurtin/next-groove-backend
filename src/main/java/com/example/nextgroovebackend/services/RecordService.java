@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,11 +39,14 @@ public class RecordService {
 
     public Record createRecord(Map<String, String> recordObject){
         System.out.println("Record service is calling createRecord");
-        String recordTitle = recordObject.get("title");
-        String recordArtist = recordObject.get("artist");
-        System.out.println(recordRepository.findByTitleIgnoreCaseAndArtistIgnoreCase(recordTitle, recordArtist));
-        Optional<Record> recordOptional = recordRepository.findByTitleIgnoreCaseAndArtistIgnoreCase(recordTitle, recordArtist);
-        if(recordOptional.isPresent()){
+        String recordTitle = recordObject.get("title").toUpperCase();
+        String recordArtist = recordObject.get("artist").toUpperCase();
+        Optional<Record> recordOptional = recordRepository.findByTitleAndArtist(recordTitle, recordArtist);
+        if(recordOptional.isPresent()
+//                &&
+//                recordOptional.get().getTitle().equalsIgnoreCase(recordTitle) &&
+//                recordOptional.get().getArtist().equalsIgnoreCase(recordArtist)
+        ){
             System.out.println("Updating --- " + recordOptional.get().getTitle());
             return assembleOrUpdateRecord(recordOptional.get(), recordObject);
 //            throw new InformationExistsException("The following record already appears in our database: \n" +
@@ -57,12 +61,12 @@ public class RecordService {
 
     private Record assembleOrUpdateRecord(Record record, Map <String, String> recordObject){
         System.out.println("Record service calling Assemble or Update Record");
-        Optional<Genre> genreOptional = genreRepository.findByName(recordObject.get("genre"));
+        Optional<Genre> genreOptional = genreRepository.findByName(recordObject.get("genre").toUpperCase());
         if(genreOptional.isEmpty()){
             throw new InformationNotFoundException("Genre not found in our database.");
         } else{
-            record.setTitle(recordObject.get("title"));
-            record.setArtist(recordObject.get("artist"));
+            record.setTitle(recordObject.get("title").toUpperCase());
+            record.setArtist(recordObject.get("artist").toUpperCase());
             record.setGenre(genreOptional.get());
             record.setMood(moodService.createMood(recordObject));
             record.setTone(toneService.createTone(recordObject));
