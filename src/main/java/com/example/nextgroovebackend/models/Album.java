@@ -1,6 +1,8 @@
 package com.example.nextgroovebackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,9 +33,11 @@ public class Album {
 
     @ManyToOne
     private Genre genre;
+
     @ManyToMany(mappedBy = "albumCollection")
     @JsonIgnore
-    private List<UserProfile> recordOwners;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<UserProfile> albumOwners;
 
     @OneToMany(mappedBy = "album", orphanRemoval = true)
     @JsonIgnore
@@ -84,11 +88,11 @@ public class Album {
     }
 
     public List<UserProfile> getAlbumOwners() {
-        return recordOwners;
+        return albumOwners;
     }
 
     public void setAlbumOwners(List<UserProfile> recordOwners) {
-        this.recordOwners = recordOwners;
+        this.albumOwners = recordOwners;
     }
 
     public String getCoverArtURL() {

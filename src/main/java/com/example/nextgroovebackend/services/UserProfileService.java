@@ -41,21 +41,21 @@ public class UserProfileService {
 
     public List<Album> getEntireCollection(){
         UserProfile userProfile = getUserProfile();
-        if (userProfile.getRecordCollection().isEmpty()){
+        if (userProfile.getAlbumCollection().isEmpty()){
             throw new InformationNotFoundException("Your collection is empty.");
         }else {
-            return userProfile.getRecordCollection();
+            return userProfile.getAlbumCollection();
         }
     }
 
-    public Album selectRecord(Long recordId){
+    public Album selectRecord(Long albumId){
         System.out.println("UserProfile service calling select record");
         UserProfile userProfile = getUserProfile();
-        Optional<Album> recordOptional = albumRepository.findById(recordId);
+        Optional<Album> recordOptional = albumRepository.findById(albumId);
         if (recordOptional.isEmpty())
-            throw new InformationNotFoundException("No record in database with id:" + recordId);
+            throw new InformationNotFoundException("No record in database with id:" + albumId);
         else{
-            List<Album> myCollection = userProfile.getRecordCollection();
+            List<Album> myCollection = userProfile.getAlbumCollection();
             Optional<Album> myCopy = myCollection.stream().filter(record -> record.equals(recordOptional.get())).findFirst();
             if(myCopy.isPresent())
                 return myCopy.get();
@@ -64,14 +64,14 @@ public class UserProfileService {
         }
     }
 
-    public void removeFromCollection(Long recordId){
+    public void removeFromCollection(Long albumId){
         System.out.println("UserProfile service calling removeFromCollection");
         UserProfile userProfile = getUserProfile();
-        Optional<Album> recordOptional = albumRepository.findById(recordId);
+        Optional<Album> recordOptional = albumRepository.findById(albumId);
         if (recordOptional.isEmpty()){
-            throw new InformationNotFoundException("No record in database with id:" + recordId);
+            throw new InformationNotFoundException("No record in database with id:" + albumId);
         } else {
-            List<Album> myCollection = userProfile.getRecordCollection();
+            List<Album> myCollection = userProfile.getAlbumCollection();
             Optional<Album> myCopy = myCollection.stream().filter(record -> record.equals(recordOptional.get())).findFirst();
             if(myCopy.isPresent()){
                 myCollection.remove(myCopy.get());
@@ -87,15 +87,15 @@ public class UserProfileService {
         return userDetails.getUser().getUserProfile();
     }
 
-    public String rateRecord(Long recordId, Map <String, String> ratingObject) {
+    public String rateRecord(Long albumId, Map <String, String> ratingObject) {
         System.out.println("Album service calling rateRecord");
-        Optional<Album> recordOptional = albumRepository.findById(recordId);
+        Optional<Album> recordOptional = albumRepository.findById(albumId);
         if (recordOptional.isEmpty()){
-            throw new InformationNotFoundException("No record in database with id:" + recordId);
+            throw new InformationNotFoundException("No record in database with id:" + albumId);
         } else {
             MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             UserProfile userProfile = userDetails.getUser().getUserProfile();
-            if (!userProfile.getRecordCollection().contains(recordOptional.get())){
+            if (!userProfile.getAlbumCollection().contains(recordOptional.get())){
                 throw new InformationNotFoundException("You can only rate records from your collection.");
             }
             else{
@@ -116,7 +116,7 @@ public class UserProfileService {
                     newMood.setUserProfile(userProfile);
                     toneRepository.save(newTone);
                     moodRepository.save(newMood);
-                    albumService.updateRecordAvgRatings(recordId);
+                    albumService.updateRecordAvgRatings(albumId);
                     return recordOptional.get().getTitle() + " have been given the following rating: " + newTone + "\n" + newMood;
                 }
             }

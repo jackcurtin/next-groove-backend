@@ -119,7 +119,7 @@ public class AlbumService {
             MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             UserProfile userProfile = userDetails.getUser().getUserProfile();
             recordOptional.get().getAlbumOwners().add(userProfile);
-            userProfile.getRecordCollection().add(recordOptional.get());
+            userProfile.getAlbumCollection().add(recordOptional.get());
             userProfileRepository.save(userProfile);
             return recordOptional.get().getTitle() + " - " + recordOptional.get().getArtist() + " added to your collection";
         }

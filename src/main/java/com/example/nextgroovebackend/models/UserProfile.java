@@ -73,7 +73,7 @@ public class UserProfile {
         this.user = user;
     }
 
-    public List<Album> getRecordCollection() {
+    public List<Album> getAlbumCollection() {
         return albumCollection;
     }
 
