@@ -26,6 +26,14 @@ public class UserProfile {
     @JsonIgnore
     private User user;
 
+    @OneToMany (mappedBy = "userProfile", orphanRemoval = true)
+    @JsonIgnore
+    private Set <Mood> moodRatings;
+
+    @OneToMany (mappedBy = "userProfile", orphanRemoval = true)
+    @JsonIgnore
+    private Set <Tone> toneRatings;
+
     @ManyToMany
     @Cascade({org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.DELETE})
     @JoinTable(
@@ -34,22 +42,6 @@ public class UserProfile {
             inverseJoinColumns = @JoinColumn(name = "record_id"))
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Record> recordCollection;
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_tone_ratings",
-            joinColumns = @JoinColumn(name = "profile_id"),
-            inverseJoinColumns = @JoinColumn(name = "tone_rating_id"))
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Tone> userToneRatings;
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_mood_ratings",
-            joinColumns = @JoinColumn(name = "profile_id"),
-            inverseJoinColumns = @JoinColumn(name = "mood_rating_id"))
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Mood> userMoodRatings;
 
     public UserProfile() {
     }
@@ -93,13 +85,5 @@ public class UserProfile {
     public void removeFromCollection(Record record){
         this.recordCollection.remove(record);
         record.getRecordOwners().remove(this);
-    }
-
-    @Override
-    public String toString() {
-        return "UserProfile{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

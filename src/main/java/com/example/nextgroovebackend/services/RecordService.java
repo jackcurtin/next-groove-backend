@@ -62,9 +62,6 @@ public class RecordService {
             record.setCoverArtURL(recordObject.get("coverArtURL"));
 
 //            Optional<Mood> moodOptional = moodRepository.findByFastSlowValueAndAndUpbeatDepressingValue();
-
-            record.setMood(moodService.createMood(recordObject));
-            record.setTone(toneService.createTone(recordObject));
             return recordRepository.save(record);
         }
     }

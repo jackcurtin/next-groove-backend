@@ -18,14 +18,11 @@ public class Mood {
     @Column
     private int upbeatDepressingValue;
 
-    @OneToOne
+    @ManyToOne
+    private UserProfile userProfile;
+
+    @ManyToOne
     private Record record;
-
-
-
-    @ManyToMany(mappedBy = "userMoodRatings")
-    @JsonIgnore
-    private List<UserProfile> userMoodRatings;
 
     public Mood() {
     }
@@ -59,6 +56,14 @@ public class Mood {
         this.upbeatDepressingValue = upbeatDepressingValue;
     }
 
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
     public Record getRecord() {
         return record;
     }
@@ -67,20 +72,14 @@ public class Mood {
         this.record = record;
     }
 
-    public List<UserProfile> getUserMoodRatings() {
-        return userMoodRatings;
-    }
-
-    public void setUserMoodRatings(List<UserProfile> userMoodRatings) {
-        this.userMoodRatings = userMoodRatings;
-    }
-
     @Override
     public String toString() {
         return "Mood{" +
                 "Id=" + Id +
                 ", fastSlowValue=" + fastSlowValue +
                 ", upbeatDepressingValue=" + upbeatDepressingValue +
+                ", userProfile=" + userProfile +
+                ", record=" + record +
                 '}';
     }
 }

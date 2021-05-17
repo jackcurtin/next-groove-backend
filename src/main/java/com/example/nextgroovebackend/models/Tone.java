@@ -17,13 +17,11 @@ public class Tone {
     @Column
     private int minimalDenseValue;
 
-    @OneToOne
-    @JsonIgnore
-    private Record record;
+    @ManyToOne
+    private UserProfile userProfile;
 
-    @ManyToMany(mappedBy = "userToneRatings")
-    @JsonIgnore
-    private List<UserProfile> userToneRatings;
+    @ManyToOne
+    private Record record;
 
 
     public Tone() {
@@ -58,6 +56,14 @@ public class Tone {
         this.minimalDenseValue = minimalDenseValue;
     }
 
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
     public Record getRecord() {
         return record;
     }
@@ -66,20 +72,14 @@ public class Tone {
         this.record = record;
     }
 
-    public List<UserProfile> getUserToneRatings() {
-        return userToneRatings;
-    }
-
-    public void setUserToneRatings(List<UserProfile> userToneRatings) {
-        this.userToneRatings = userToneRatings;
-    }
-
     @Override
     public String toString() {
         return "Tone{" +
                 "Id=" + Id +
                 ", hifiLofiValue=" + hifiLofiValue +
                 ", minimalDenseValue=" + minimalDenseValue +
+                ", userProfile=" + userProfile +
+                ", record=" + record +
                 '}';
     }
 }

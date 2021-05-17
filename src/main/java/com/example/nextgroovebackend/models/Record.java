@@ -21,16 +21,28 @@ public class Record {
     private String artist;
     @Column
     private String coverArtURL;
+    @Column
+    private int avgHLVal;
+    @Column
+    private int avgMDVal;
+    @Column
+    private int avgFSVal;
+    @Column
+    private int avgUDVal;
 
     @ManyToOne
     private Genre genre;
-    @OneToOne
-    private Tone tone;
-    @OneToOne
-    private Mood mood;
     @ManyToMany(mappedBy = "recordCollection")
     @JsonIgnore
     private List<UserProfile> recordOwners;
+
+    @OneToMany(mappedBy = "record", orphanRemoval = true)
+    @JsonIgnore
+    private List<Mood> moodRatings;
+
+    @OneToMany(mappedBy = "record", orphanRemoval = true)
+    @JsonIgnore
+    private List<Tone> toneRatings;
 
     public Record() {
     }
@@ -72,22 +84,6 @@ public class Record {
         this.genre = genre;
     }
 
-    public Tone getTone() {
-        return tone;
-    }
-
-    public void setTone(Tone tone) {
-        this.tone = tone;
-    }
-
-    public Mood getMood() {
-        return mood;
-    }
-
-    public void setMood(Mood mood) {
-        this.mood = mood;
-    }
-
     public List<UserProfile> getRecordOwners() {
         return recordOwners;
     }
@@ -102,6 +98,54 @@ public class Record {
 
     public void setCoverArtURL(String coverArtURL) {
         this.coverArtURL = coverArtURL;
+    }
+
+    public int getAvgHLVal() {
+        return avgHLVal;
+    }
+
+    public void setAvgHLVal(int avgHLVal) {
+        this.avgHLVal = avgHLVal;
+    }
+
+    public int getAvgMDVal() {
+        return avgMDVal;
+    }
+
+    public void setAvgMDVal(int avgMDVal) {
+        this.avgMDVal = avgMDVal;
+    }
+
+    public int getAvgFSVal() {
+        return avgFSVal;
+    }
+
+    public void setAvgFSVal(int avgFSVal) {
+        this.avgFSVal = avgFSVal;
+    }
+
+    public int getAvgUDVal() {
+        return avgUDVal;
+    }
+
+    public void setAvgUDVal(int avgUDVal) {
+        this.avgUDVal = avgUDVal;
+    }
+
+    public List<Mood> getMoodRatings() {
+        return moodRatings;
+    }
+
+    public void setMoodRatings(List<Mood> moodRatings) {
+        this.moodRatings = moodRatings;
+    }
+
+    public List<Tone> getToneRatings() {
+        return toneRatings;
+    }
+
+    public void setToneRatings(List<Tone> toneRatings) {
+        this.toneRatings = toneRatings;
     }
 
     @Override
