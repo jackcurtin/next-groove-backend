@@ -6,7 +6,6 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +40,7 @@ public class UserProfile {
             joinColumns = @JoinColumn(name = "profile_id"),
             inverseJoinColumns = @JoinColumn(name = "record_id"))
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Record> recordCollection;
+    private List<Album> albumCollection;
 
     public UserProfile() {
     }
@@ -74,32 +73,16 @@ public class UserProfile {
         this.user = user;
     }
 
-    public List<Record> getRecordCollection() {
-        return recordCollection;
+    public List<Album> getRecordCollection() {
+        return albumCollection;
     }
 
-    public void setRecordCollection(List<Record> recordCollection) {
-        this.recordCollection = recordCollection;
+    public void setRecordCollection(List<Album> albumCollection) {
+        this.albumCollection = albumCollection;
     }
 
-    public void removeFromCollection(Record record){
-        this.recordCollection.remove(record);
-        record.getRecordOwners().remove(this);
-    }
-
-    public Set<Mood> getMoodRatings() {
-        return moodRatings;
-    }
-
-    public void setMoodRatings(Set<Mood> moodRatings) {
-        this.moodRatings = moodRatings;
-    }
-
-    public Set<Tone> getToneRatings() {
-        return toneRatings;
-    }
-
-    public void setToneRatings(Set<Tone> toneRatings) {
-        this.toneRatings = toneRatings;
+    public void removeFromCollection(Album album){
+        this.albumCollection.remove(album);
+        album.getAlbumOwners().remove(this);
     }
 }

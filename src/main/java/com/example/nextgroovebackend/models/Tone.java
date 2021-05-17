@@ -1,9 +1,6 @@
 package com.example.nextgroovebackend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "Tones")
@@ -21,7 +18,7 @@ public class Tone {
     private UserProfile userProfile;
 
     @ManyToOne
-    private Record record;
+    private Album album;
 
 
     public Tone() {
@@ -64,12 +61,12 @@ public class Tone {
         this.userProfile = userProfile;
     }
 
-    public Record getRecord() {
-        return record;
+    public Album getRecord() {
+        return album;
     }
 
-    public void setRecord(Record record) {
-        this.record = record;
+    public void setRecord(Album album) {
+        this.album = album;
     }
 
     @Override
@@ -79,7 +76,7 @@ public class Tone {
                 ", hifiLofiValue=" + hifiLofiValue +
                 ", minimalDenseValue=" + minimalDenseValue +
                 ", userProfile=" + userProfile +
-                ", record=" + record +
+                ", album=" + album +
                 '}';
     }
 }

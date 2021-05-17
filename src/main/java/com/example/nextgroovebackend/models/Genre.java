@@ -18,7 +18,7 @@ public class Genre {
 
     @OneToMany (mappedBy = "genre", orphanRemoval = true)
     @JsonIgnore
-    private List<Record> recordList;
+    private List<Album> albumList;
 
     public Genre() { }
 

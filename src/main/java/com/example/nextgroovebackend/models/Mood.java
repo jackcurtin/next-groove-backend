@@ -1,10 +1,6 @@
 package com.example.nextgroovebackend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.action.internal.OrphanRemovalAction;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table (name = "moods")
@@ -22,7 +18,7 @@ public class Mood {
     private UserProfile userProfile;
 
     @ManyToOne
-    private Record record;
+    private Album album;
 
     public Mood() {
     }
@@ -64,12 +60,12 @@ public class Mood {
         this.userProfile = userProfile;
     }
 
-    public Record getRecord() {
-        return record;
+    public Album getRecord() {
+        return album;
     }
 
-    public void setRecord(Record record) {
-        this.record = record;
+    public void setRecord(Album album) {
+        this.album = album;
     }
 
     @Override
@@ -79,7 +75,7 @@ public class Mood {
                 ", fastSlowValue=" + fastSlowValue +
                 ", upbeatDepressingValue=" + upbeatDepressingValue +
                 ", userProfile=" + userProfile +
-                ", record=" + record +
+                ", album=" + album +
                 '}';
     }
 }

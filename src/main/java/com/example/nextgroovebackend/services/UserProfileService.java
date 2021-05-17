@@ -2,46 +2,44 @@ package com.example.nextgroovebackend.services;
 
 import com.example.nextgroovebackend.exceptions.InformationExistsException;
 import com.example.nextgroovebackend.exceptions.InformationNotFoundException;
+import com.example.nextgroovebackend.models.Album;
 import com.example.nextgroovebackend.models.Mood;
-import com.example.nextgroovebackend.models.Record;
 import com.example.nextgroovebackend.models.Tone;
 import com.example.nextgroovebackend.models.UserProfile;
 import com.example.nextgroovebackend.repositories.MoodRepository;
-import com.example.nextgroovebackend.repositories.RecordRepository;
+import com.example.nextgroovebackend.repositories.AlbumRepository;
 import com.example.nextgroovebackend.repositories.ToneRepository;
 import com.example.nextgroovebackend.repositories.UserProfileRepository;
 import com.example.nextgroovebackend.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.persistence.EntityManager;
 import java.util.*;
 
 @Service
 public class UserProfileService {
     private UserProfileRepository userProfileRepository;
-    private RecordRepository recordRepository;
+    private AlbumRepository albumRepository;
     private ToneRepository toneRepository;
     private MoodRepository moodRepository;
     private UserService userService;
-    private RecordService recordService;
+    private AlbumService albumService;
 
     @Autowired
     public void setUserProfileRepository(UserProfileRepository userProfileRepository) {this.userProfileRepository = userProfileRepository;}
     @Autowired
-    public void setRecordRepository(RecordRepository recordRepository) {
-        this.recordRepository = recordRepository;
+    public void setRecordRepository(AlbumRepository albumRepository) {
+        this.albumRepository = albumRepository;
     }
     @Autowired
     public void setToneRepository(ToneRepository toneRepository) { this.toneRepository = toneRepository; }
     @Autowired
     public void setMoodRepository(MoodRepository moodRepository) { this.moodRepository = moodRepository; }
     @Autowired
-    public void setRecordService(RecordService recordService) { this.recordService = recordService; }
+    public void setRecordService(AlbumService albumService) { this.albumService = albumService; }
 
-    public List<Record> getEntireCollection(){
+    public List<Album> getEntireCollection(){
         UserProfile userProfile = getUserProfile();
         if (userProfile.getRecordCollection().isEmpty()){
             throw new InformationNotFoundException("Your collection is empty.");
@@ -50,15 +48,15 @@ public class UserProfileService {
         }
     }
 
-    public Record selectRecord(Long recordId){
+    public Album selectRecord(Long recordId){
         System.out.println("UserProfile service calling select record");
         UserProfile userProfile = getUserProfile();
-        Optional<Record> recordOptional = recordRepository.findById(recordId);
+        Optional<Album> recordOptional = albumRepository.findById(recordId);
         if (recordOptional.isEmpty())
             throw new InformationNotFoundException("No record in database with id:" + recordId);
         else{
-            List<Record> myCollection = userProfile.getRecordCollection();
-            Optional<Record> myCopy = myCollection.stream().filter(record -> record.equals(recordOptional.get())).findFirst();
+            List<Album> myCollection = userProfile.getRecordCollection();
+            Optional<Album> myCopy = myCollection.stream().filter(record -> record.equals(recordOptional.get())).findFirst();
             if(myCopy.isPresent())
                 return myCopy.get();
             else
@@ -69,12 +67,12 @@ public class UserProfileService {
     public void removeFromCollection(Long recordId){
         System.out.println("UserProfile service calling removeFromCollection");
         UserProfile userProfile = getUserProfile();
-        Optional<Record> recordOptional = recordRepository.findById(recordId);
+        Optional<Album> recordOptional = albumRepository.findById(recordId);
         if (recordOptional.isEmpty()){
             throw new InformationNotFoundException("No record in database with id:" + recordId);
         } else {
-            List<Record> myCollection = userProfile.getRecordCollection();
-            Optional<Record> myCopy = myCollection.stream().filter(record -> record.equals(recordOptional.get())).findFirst();
+            List<Album> myCollection = userProfile.getRecordCollection();
+            Optional<Album> myCopy = myCollection.stream().filter(record -> record.equals(recordOptional.get())).findFirst();
             if(myCopy.isPresent()){
                 myCollection.remove(myCopy.get());
                 userProfileRepository.save(userProfile);
@@ -90,8 +88,8 @@ public class UserProfileService {
     }
 
     public String rateRecord(Long recordId, Map <String, String> ratingObject) {
-        System.out.println("Record service calling rateRecord");
-        Optional<Record> recordOptional = recordRepository.findById(recordId);
+        System.out.println("Album service calling rateRecord");
+        Optional<Album> recordOptional = albumRepository.findById(recordId);
         if (recordOptional.isEmpty()){
             throw new InformationNotFoundException("No record in database with id:" + recordId);
         } else {
@@ -101,8 +99,8 @@ public class UserProfileService {
                 throw new InformationNotFoundException("You can only rate records from your collection.");
             }
             else{
-                Optional<Tone> toneOptional = toneRepository.findByUserProfileAndRecord(userProfile, recordOptional.get());
-                Optional<Mood> moodOptional = moodRepository.findByUserProfileAndRecord(userProfile, recordOptional.get());
+                Optional<Tone> toneOptional = toneRepository.findByUserProfileAndAlbum(userProfile, recordOptional.get());
+                Optional<Mood> moodOptional = moodRepository.findByUserProfileAndAlbum(userProfile, recordOptional.get());
                 if (toneOptional.isPresent() && moodOptional.isPresent())
                     throw new InformationExistsException("You have already rated this record!");
                 else{
@@ -118,7 +116,7 @@ public class UserProfileService {
                     newMood.setUserProfile(userProfile);
                     toneRepository.save(newTone);
                     moodRepository.save(newMood);
-                    recordService.updateRecordAvgRatings(recordId);
+                    albumService.updateRecordAvgRatings(recordId);
                     return recordOptional.get().getTitle() + " have been given the following rating: " + newTone + "\n" + newMood;
                 }
             }

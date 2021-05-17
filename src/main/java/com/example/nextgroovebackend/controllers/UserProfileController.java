@@ -1,6 +1,6 @@
 package com.example.nextgroovebackend.controllers;
 
-import com.example.nextgroovebackend.models.Record;
+import com.example.nextgroovebackend.models.Album;
 import com.example.nextgroovebackend.models.UserProfile;
 import com.example.nextgroovebackend.services.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/profile")
@@ -27,14 +26,14 @@ public class UserProfileController {
     }
 
     @GetMapping("/collection/{recordId}")
-    public Record selectRecord(@PathVariable Long recordId){
+    public Album selectRecord(@PathVariable Long recordId){
         System.out.println("UserProfile controller calling selectRecord");
         return userProfileService.selectRecord(recordId);
     }
 
 
     @GetMapping("/collection")
-    public List<Record> getEntireCollection(){
+    public List<Album> getEntireCollection(){
         System.out.println("UserProfile controller calling getEntireCollection");
         return userProfileService.getEntireCollection();
     }
@@ -47,7 +46,7 @@ public class UserProfileController {
 
     @PutMapping("/collection/{recordId}/rate")
     public String rateRecord(@PathVariable Long recordId, @RequestBody Map<String, String> ratingObject) {
-        System.out.println("Record controller calling rateRecord");
+        System.out.println("Album controller calling rateRecord");
         return userProfileService.rateRecord(recordId, ratingObject);
     }
 }

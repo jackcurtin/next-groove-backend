@@ -23,7 +23,6 @@ public class User {
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private UserProfile userProfile;
 
-
     public User() {
     }
 
