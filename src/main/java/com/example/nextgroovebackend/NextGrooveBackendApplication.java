@@ -1,6 +1,8 @@
 package com.example.nextgroovebackend;
 
+import com.example.nextgroovebackend.models.Genre;
 import com.example.nextgroovebackend.models.Record;
+import com.example.nextgroovebackend.services.GenreService;
 import com.example.nextgroovebackend.services.RecordService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +25,25 @@ public class NextGrooveBackendApplication {
     }
 
     @Bean
-    CommandLineRunner runner(RecordService recordService){
+    CommandLineRunner genreRunner(GenreService genreService){
+        return args -> {
+            ObjectMapper mapper = new ObjectMapper();
+            TypeReference<List<Genre>> typeReference = new TypeReference<List<Genre>>() {};
+            InputStream inputStream = TypeReference.class.getResourceAsStream("/json/genres.json");
+            try{
+                List<Genre> genres = mapper.readValue(inputStream, typeReference);
+                genres.forEach(genre -> {
+                    genreService.createGenre(genre);
+                    System.out.println(genre.getName() + " created as genre.");
+                });
+            } catch (IOException e){
+                System.out.println("Unable to save genres: " + e.getMessage());
+            }
+        };
+    }
+
+    @Bean
+    CommandLineRunner recordRunner(RecordService recordService){
         return args -> {
             ObjectMapper mapper = new ObjectMapper();
             TypeReference<List<Map<String, String>>> typeReference = new TypeReference<List<Map<String, String>>>(){};
@@ -35,9 +55,10 @@ public class NextGrooveBackendApplication {
                     System.out.println(record.get("title") + " --- " + record.get("artist") + " created");
                 });
             } catch(IOException e){
-                System.out.println("Unable to save users: " + e.getMessage());
+                System.out.println("Unable to save records: " + e.getMessage());
             }
         };
     }
+
 
 }

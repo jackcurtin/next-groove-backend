@@ -20,13 +20,16 @@ public class GenreService {
 
     public Genre createGenre(Genre genreObject){
         System.out.println("Genre service calling createGenre");
-        Optional<Genre> genreOptional = genreRepository.findByName(genreObject.getName());
+        Optional<Genre> genreOptional = genreRepository.findByNameIgnoreCase(genreObject.getName());
         if(genreOptional.isPresent()){
-            throw new InformationExistsException("The genre of " + genreObject.getName() + " is already in our database");
+            System.out.println("genre already exists");
+            return genreRepository.save(genreOptional.get());
+//            throw new InformationExistsException("The genre of " + genreObject.getName() + " is already in our database");
         } else {
             if(genreObject.getName().length()<1){
                 throw new CannotBeNullException("You must provide a name for the genre.");
             } else {
+                genreObject.setName(genreObject.getName().toUpperCase());
                 return genreRepository.save(genreObject);
             }
         }

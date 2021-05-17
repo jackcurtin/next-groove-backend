@@ -61,7 +61,7 @@ public class RecordService {
 
     private Record assembleOrUpdateRecord(Record record, Map <String, String> recordObject){
         System.out.println("Record service calling Assemble or Update Record");
-        Optional<Genre> genreOptional = genreRepository.findByName(recordObject.get("genre").toUpperCase());
+        Optional<Genre> genreOptional = genreRepository.findByNameIgnoreCase(recordObject.get("genre").toUpperCase());
         if(genreOptional.isEmpty()){
             throw new InformationNotFoundException("Genre not found in our database.");
         } else{
