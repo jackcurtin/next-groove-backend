@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -42,5 +43,11 @@ public class UserProfileController {
     public void removeFromCollection(@PathVariable Long recordId){
         System.out.println("UserProfile controller calling removeFromCollection");
         userProfileService.removeFromCollection(recordId);
+    }
+
+    @PutMapping("/collection/{recordId}/rate")
+    public String rateRecord(@PathVariable Long recordId, @RequestBody Map<String, String> ratingObject) {
+        System.out.println("Record controller calling rateRecord");
+        return userProfileService.rateRecord(recordId, ratingObject);
     }
 }

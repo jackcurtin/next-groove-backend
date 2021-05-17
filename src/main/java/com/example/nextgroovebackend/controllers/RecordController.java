@@ -40,9 +40,4 @@ public class RecordController {
         System.out.println("Record controller calling addToCollection");
         return recordService.addToCollection(recordId);
     }
-
-    @PutMapping("/rate/{recordId}")
-    public void rateRecord(@PathVariable Long recordId, @RequestBody Map <String, String> ratingObject) {
-        System.out.println("Record controller calling rateRecord");
-    }
 }

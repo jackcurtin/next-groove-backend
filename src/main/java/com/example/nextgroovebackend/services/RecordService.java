@@ -20,6 +20,8 @@ public class RecordService {
     private UserProfileRepository userProfileRepository;
     private ToneService toneService;
     private MoodService moodService;
+    private MoodRepository moodRepository;
+    private ToneRepository toneRepository;
 
     @Autowired
     public void setRecordRepository (RecordRepository recordRepository) {this.recordRepository = recordRepository;}
@@ -31,6 +33,10 @@ public class RecordService {
     public void setToneService (ToneService toneService) {this.toneService = toneService;}
     @Autowired
     public void setMoodService (MoodService moodService) {this.moodService = moodService;}
+    @Autowired
+    public void setMoodRepository(MoodRepository moodRepository) { this.moodRepository = moodRepository;}
+    @Autowired
+    public void setToneRepository(ToneRepository toneRepository) {this.toneRepository = toneRepository; }
 
     public Record createRecord(Map<String, String> recordObject){
         System.out.println("Record service is calling createRecord");
@@ -99,22 +105,4 @@ public class RecordService {
             return recordOptional.get().getTitle() + " - " + recordOptional.get().getArtist() + " added to your collection";
         }
     }
-
-//    public Record rateRecord(Long recordId, Map <String, String> ratingObject) {
-//        System.out.println("Record service calling rateRecord");
-//        Optional<Record> recordOptional = recordRepository.findById(recordId);
-//        if (recordOptional.isEmpty()){
-//            throw new InformationNotFoundException("No record in database with id:" + recordId);
-//        } else {
-//            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            UserProfile userProfile = userDetails.getUser().getUserProfile();
-//            int userMDValue = Integer.parseInt(ratingObject.get("mdValue"));
-//            int userHiLoValue = Integer.parseInt(ratingObject.get("hiLoValue"));
-//            int userFSValue = Integer.parseInt(ratingObject.get("fsValue"));
-//            int userUDValue = Integer.parseInt(ratingObject.get("udValue"));
-//            Tone userToneRating = new Tone(userHiLoValue, userMDValue);
-//            Mood userMoodRating = new Mood(userFSValue, userUDValue);
-//
-//        }
-//    }
 }
