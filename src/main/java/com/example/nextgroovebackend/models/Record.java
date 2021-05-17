@@ -30,6 +30,8 @@ public class Record {
     @JsonIgnore
     private List<UserProfile> recordOwners;
 
+    private UserRatings userRatings = [];
+
     public Record() {
     }
 

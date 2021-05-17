@@ -108,25 +108,23 @@ public class RecordService {
         }
     }
 
-//    public Record rateRecord(Long recordId, Map <String, String> ratingObject) {
-//        System.out.println("Record service calling rateRecord");
-//        Optional<Record> recordOptional = recordRepository.findById(recordId);
-//        if (recordOptional.isEmpty()){
-//            throw new InformationNotFoundException("No record in database with id:" + recordId);
-//        } else {
-//            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            UserProfile userProfile = userDetails.getUser().getUserProfile();
-//            int userMDValue = Integer.parseInt(ratingObject.get("mdValue"));
-//            int userHiLoValue = Integer.parseInt(ratingObject.get("hiLoValue"));
-//            int userFSValue = Integer.parseInt(ratingObject.get("fsValue"));
-//            int userUDValue = Integer.parseInt(ratingObject.get("udValue"));
-//            Tone userToneRating = new Tone(userHiLoValue, userMDValue);
-//            Mood userMoodRating = new Mood(userFSValue, userUDValue);
-//            userProfile.
-//            userProfile.getUserToneRatings().add(userToneRating);
-//            userProfile.getUserMoodRatings().add(userMoodRating);
-//        }
-//    }
+    public Record rateRecord(Long recordId, Map <String, String> ratingObject) {
+        System.out.println("Record service calling rateRecord");
+        Optional<Record> recordOptional = recordRepository.findById(recordId);
+        if (recordOptional.isEmpty()){
+            throw new InformationNotFoundException("No record in database with id:" + recordId);
+        } else {
+            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            UserProfile userProfile = userDetails.getUser().getUserProfile();
+            int userMDValue = Integer.parseInt(ratingObject.get("mdValue"));
+            int userHiLoValue = Integer.parseInt(ratingObject.get("hiLoValue"));
+            int userFSValue = Integer.parseInt(ratingObject.get("fsValue"));
+            int userUDValue = Integer.parseInt(ratingObject.get("udValue"));
+            Tone userToneRating = new Tone(userHiLoValue, userMDValue);
+            Mood userMoodRating = new Mood(userFSValue, userUDValue);
+
+        }
+    }
 
 //    public Record createRecordFromJson(Record recordObject){
 //        System.out.println("Record service is calling createRecord");

@@ -25,6 +25,7 @@ public class Tone {
     @JsonIgnore
     private List<UserProfile> userToneRatings;
 
+
     public Tone() {
     }
 
