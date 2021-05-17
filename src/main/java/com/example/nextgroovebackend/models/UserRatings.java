@@ -1,9 +1,14 @@
 package com.example.nextgroovebackend.models;
 
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+
 import java.util.List;
 
-public class UserRatings {
+
+public class UserRatings{
+    @ManyToOne
+    private Record record;
+
     private List<Tone> userToneRatings;
     private List<Mood> userMoodRatings;
 

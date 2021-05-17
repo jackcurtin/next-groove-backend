@@ -3,10 +3,11 @@
     "title":"NEW PLASTIC IDEAS",
     "artist":"UNWOUND",
     "genre":"rock",
-    "mdValue":"4",
-    "hiLoValue":"4",
+    "mdValue":"-1",
+    "hiLoValue":"-1",
     "fsValue":"3",
-    "udValue":"0"
+    "udValue":"-2",
+    "coverArtURL": "https://f4.bcbits.com/img/a2661804248_10.jpg"
   },
 
   {
@@ -16,24 +17,87 @@
     "mdValue":"4",
     "hiLoValue":"4",
     "fsValue":"3",
-    "udValue":"0"
+    "udValue":"1",
+    "coverArtURL": "https://img.discogs.com/romF60vGFmnwRuLWEBRfvzHRp18=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-1352572-1541977552-4962.jpeg.jpg"
   },
   {
     "title":"ROMAN candle",
-    "artist":"ELLIOT SMITH",
+    "artist":"ELLIOTT SMITH",
     "genre":"rock",
-    "mdValue":"4",
-    "hiLoValue":"4",
-    "fsValue":"3",
-    "udValue":"0"
+    "mdValue":"-4",
+    "hiLoValue":"-3",
+    "fsValue":"-3",
+    "udValue":"-3",
+    "coverArtURL": "https://img.discogs.com/h-xSjmsi4wynElryaHEh6X_UHEE=/fit-in/600x600/filters:strip_icc():format(webp):mode_rgb():quality(90)/discogs-images/R-1011028-1183849404.jpeg.jpg"
   },
   {
     "title":"beat",
     "artist":"BOWERY ELECTRIC",
-    "genre": "rock",
+    "genre": "EXPERIMENTAL",
     "mdValue":"2",
     "hiLoValue":"2",
     "fsValue":"2",
-    "udValue":"4"
+    "udValue":"4",
+    "coverArtURL": "https://img.discogs.com/aW-jnqwmcosx3PyXvor2JXBOAAk=/fit-in/509x510/filters:strip_icc():format(webp):mode_rgb():quality(90)/discogs-images/R-323556-1292440813.jpeg.jpg"
+  },
+  {
+    "title":"KARMA",
+    "artist":"PHAROAH SANDERS",
+    "genre": "JAZZ",
+    "mdValue":"4",
+    "hiLoValue":"2",
+    "fsValue":"-2",
+    "udValue":"3",
+    "coverArtURL": "https://img.discogs.com/e_HF0zk43XgOztGEeMAZ_uvNSPY=/fit-in/600x602/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-873261-1599594034-4330.jpeg.jpg"
+  },
+  {
+    "title":"ILLMATIC",
+    "artist":"NAS",
+    "genre": "RAP",
+    "mdValue":"0",
+    "hiLoValue":"-1",
+    "fsValue":"1",
+    "udValue":"1",
+    "coverArtURL": "https://live.staticflickr.com/3085/3155936136_0830c093f9_z.jpg"
+  },
+  {
+    "title":"BEE THOUSAND",
+    "artist":"GUIDED BY VOICES",
+    "genre": "rock",
+    "mdValue":"-3",
+    "hiLoValue":"-5",
+    "fsValue":"3",
+    "udValue":"3",
+    "coverArtURL": "https://static.spin.com/files/2019/06/Bee-Thousand-640x640-1561306757-640x640.png"
+  },
+  {
+    "title":"LOVE OH LOVE",
+    "artist":"LEROY HUTSON",
+    "genre": "SOUL",
+    "mdValue":"4",
+    "hiLoValue":"2",
+    "fsValue":"1",
+    "udValue":"4",
+    "coverArtURL": "https://images-na.ssl-images-amazon.com/images/I/51NcTRi8G1L._SY580_.jpg"
+  },
+  {
+    "title":"LIVE AT THE OLD QUARTER",
+    "artist":"TOWNES VAN ZANDT",
+    "genre": "COUNTRY",
+    "mdValue":"-5",
+    "hiLoValue":"-3",
+    "fsValue":"-3",
+    "udValue":"-2",
+    "coverArtURL": "https://images-na.ssl-images-amazon.com/images/I/81wVp%2BrgpHL._SL1500_.jpg"
+  },
+  {
+    "title":"PHASES AND STAGES",
+    "artist":"WILLIE NELSON",
+    "genre": "COUNTRY",
+    "mdValue":"0",
+    "hiLoValue":"1",
+    "fsValue":"-3",
+    "udValue":"-1",
+    "coverArtURL": "https://images-na.ssl-images-amazon.com/images/I/8192Biyqf8L._SL1417_.jpg"
   }
 ]

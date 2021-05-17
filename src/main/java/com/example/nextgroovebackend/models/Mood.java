@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table
+@Table (name = "moods")
 public class Mood {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,6 @@ public class Mood {
     private int upbeatDepressingValue;
 
     @OneToOne
-    @JsonIgnore
     private Record record;
 
     @ManyToMany(mappedBy = "userMoodRatings")

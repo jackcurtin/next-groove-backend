@@ -1,7 +1,5 @@
 package com.example.nextgroovebackend.services;
 
-import com.example.nextgroovebackend.exceptions.CannotBeNullException;
-import com.example.nextgroovebackend.exceptions.InformationExistsException;
 import com.example.nextgroovebackend.exceptions.InformationNotFoundException;
 import com.example.nextgroovebackend.models.*;
 import com.example.nextgroovebackend.repositories.*;
@@ -9,11 +7,9 @@ import com.example.nextgroovebackend.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,7 +20,6 @@ public class RecordService {
     private UserProfileRepository userProfileRepository;
     private ToneService toneService;
     private MoodService moodService;
-
 
     @Autowired
     public void setRecordRepository (RecordRepository recordRepository) {this.recordRepository = recordRepository;}
@@ -42,11 +37,7 @@ public class RecordService {
         String recordTitle = recordObject.get("title").toUpperCase();
         String recordArtist = recordObject.get("artist").toUpperCase();
         Optional<Record> recordOptional = recordRepository.findByTitleAndArtist(recordTitle, recordArtist);
-        if(recordOptional.isPresent()
-//                &&
-//                recordOptional.get().getTitle().equalsIgnoreCase(recordTitle) &&
-//                recordOptional.get().getArtist().equalsIgnoreCase(recordArtist)
-        ){
+        if(recordOptional.isPresent()){
             System.out.println("Updating --- " + recordOptional.get().getTitle());
             return assembleOrUpdateRecord(recordOptional.get(), recordObject);
 //            throw new InformationExistsException("The following record already appears in our database: \n" +
@@ -68,6 +59,10 @@ public class RecordService {
             record.setTitle(recordObject.get("title").toUpperCase());
             record.setArtist(recordObject.get("artist").toUpperCase());
             record.setGenre(genreOptional.get());
+            record.setCoverArtURL(recordObject.get("coverArtURL"));
+
+//            Optional<Mood> moodOptional = moodRepository.findByFastSlowValueAndAndUpbeatDepressingValue();
+
             record.setMood(moodService.createMood(recordObject));
             record.setTone(toneService.createTone(recordObject));
             return recordRepository.save(record);
@@ -108,37 +103,21 @@ public class RecordService {
         }
     }
 
-    public Record rateRecord(Long recordId, Map <String, String> ratingObject) {
-        System.out.println("Record service calling rateRecord");
-        Optional<Record> recordOptional = recordRepository.findById(recordId);
-        if (recordOptional.isEmpty()){
-            throw new InformationNotFoundException("No record in database with id:" + recordId);
-        } else {
-            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            UserProfile userProfile = userDetails.getUser().getUserProfile();
-            int userMDValue = Integer.parseInt(ratingObject.get("mdValue"));
-            int userHiLoValue = Integer.parseInt(ratingObject.get("hiLoValue"));
-            int userFSValue = Integer.parseInt(ratingObject.get("fsValue"));
-            int userUDValue = Integer.parseInt(ratingObject.get("udValue"));
-            Tone userToneRating = new Tone(userHiLoValue, userMDValue);
-            Mood userMoodRating = new Mood(userFSValue, userUDValue);
-
-        }
-    }
-
-//    public Record createRecordFromJson(Record recordObject){
-//        System.out.println("Record service is calling createRecord");
-//        Optional <Record> recordOptional = recordRepository.findByTitleAndArtist(recordObject.getTitle(), recordObject.getArtist());
-//        if(recordOptional.isPresent()){
-//            throw new InformationExistsException("The following record already appears in our database: \n" +
-//                    recordOptional.get().getTitle() + " -- " + recordOptional.get().getArtist());
-//        }else{
-//            Optional<Genre> genreOptional = genreRepository.findByName(recordObject.getGenre().getName());
-//            if(genreOptional.isEmpty()){
-//                throw new InformationNotFoundException("Genre not found in database");
-//            } else{
-//                return recordRepository.save(recordObject);
-//            }
+//    public Record rateRecord(Long recordId, Map <String, String> ratingObject) {
+//        System.out.println("Record service calling rateRecord");
+//        Optional<Record> recordOptional = recordRepository.findById(recordId);
+//        if (recordOptional.isEmpty()){
+//            throw new InformationNotFoundException("No record in database with id:" + recordId);
+//        } else {
+//            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//            UserProfile userProfile = userDetails.getUser().getUserProfile();
+//            int userMDValue = Integer.parseInt(ratingObject.get("mdValue"));
+//            int userHiLoValue = Integer.parseInt(ratingObject.get("hiLoValue"));
+//            int userFSValue = Integer.parseInt(ratingObject.get("fsValue"));
+//            int userUDValue = Integer.parseInt(ratingObject.get("udValue"));
+//            Tone userToneRating = new Tone(userHiLoValue, userMDValue);
+//            Mood userMoodRating = new Mood(userFSValue, userUDValue);
+//
 //        }
 //    }
 }

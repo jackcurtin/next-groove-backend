@@ -52,7 +52,7 @@ public class NextGrooveBackendApplication {
                 List<Map<String, String>> records = mapper.readValue(inputStream,typeReference);
                 records.forEach(record -> {
                     recordService.createRecord(record);
-                    System.out.println(record.get("title") + " --- " + record.get("artist") + " created");
+                    System.out.println(record.get("title") + " --- " + record.get("artist") + " ");
                 });
             } catch(IOException e){
                 System.out.println("Unable to save records: " + e.getMessage());

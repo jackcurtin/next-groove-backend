@@ -19,6 +19,8 @@ public class Record {
     private String title;
     @Column
     private String artist;
+    @Column
+    private String coverArtURL;
 
     @ManyToOne
     private Genre genre;
@@ -29,8 +31,6 @@ public class Record {
     @ManyToMany(mappedBy = "recordCollection")
     @JsonIgnore
     private List<UserProfile> recordOwners;
-
-    private UserRatings userRatings = [];
 
     public Record() {
     }
@@ -94,6 +94,14 @@ public class Record {
 
     public void setRecordOwners(List<UserProfile> recordOwners) {
         this.recordOwners = recordOwners;
+    }
+
+    public String getCoverArtURL() {
+        return coverArtURL;
+    }
+
+    public void setCoverArtURL(String coverArtURL) {
+        this.coverArtURL = coverArtURL;
     }
 
     @Override
