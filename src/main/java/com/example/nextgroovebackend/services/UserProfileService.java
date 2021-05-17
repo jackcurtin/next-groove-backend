@@ -39,6 +39,22 @@ public class UserProfileService {
         }
     }
 
+    public Record selectRecord(Long recordId){
+        System.out.println("UserProfile service calling select record");
+        UserProfile userProfile = getUserProfile();
+        Optional<Record> recordOptional = recordRepository.findById(recordId);
+        if (recordOptional.isEmpty())
+            throw new InformationNotFoundException("No record in database with id:" + recordId);
+        else{
+            List<Record> myCollection = userProfile.getRecordCollection();
+            Optional<Record> myCopy = myCollection.stream().filter(record -> record.equals(recordOptional.get())).findFirst();
+            if(myCopy.isPresent())
+                return myCopy.get();
+            else
+                throw new InformationNotFoundException(recordOptional.get().getTitle() + " is not in your collection.");
+        }
+    }
+
     public void removeFromCollection(Long recordId){
         System.out.println("UserProfile service calling removeFromCollection");
         UserProfile userProfile = getUserProfile();
@@ -55,9 +71,7 @@ public class UserProfileService {
                 throw new InformationNotFoundException(myCopy + " is not in your collection");
             }
         }
-
     }
-
 
     public UserProfile getUserProfile(){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

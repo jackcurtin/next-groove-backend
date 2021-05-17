@@ -25,6 +25,13 @@ public class UserProfileController {
         return userProfileService.getUserProfile();
     }
 
+    @GetMapping("/collection/{recordId}")
+    public Record selectRecord(@PathVariable Long recordId){
+        System.out.println("UserProfile controller calling selectRecord");
+        return userProfileService.selectRecord(recordId);
+    }
+
+
     @GetMapping("/collection")
     public List<Record> getEntireCollection(){
         System.out.println("UserProfile controller calling getEntireCollection");

@@ -21,6 +21,8 @@ public class Mood {
     @OneToOne
     private Record record;
 
+
+
     @ManyToMany(mappedBy = "userMoodRatings")
     @JsonIgnore
     private List<UserProfile> userMoodRatings;
