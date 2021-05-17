@@ -150,4 +150,35 @@ public class RecordService {
             return recordRepository.save(recordOptional.get());
         }
     }
+
+    public Record createRecordFromJSON(Map<String, String> recordObject) {
+        System.out.println("Record service is calling createRecord");
+        String recordTitle = recordObject.get("title").toUpperCase();
+        String recordArtist = recordObject.get("artist").toUpperCase();
+        Optional<Record> recordOptional = recordRepository.findByTitleAndArtist(recordTitle, recordArtist);
+        if (recordOptional.isPresent()) {
+            System.out.println("Updating --- " + recordOptional.get().getTitle());
+            return assembleOrUpdateRecord(recordOptional.get(), recordObject);
+//            throw new InformationExistsException("The following record already appears in our database: \n" +
+//                    recordTitle + " -- " + recordArtist);
+        } else {
+            System.out.println("Creating new entry for " + recordObject.get("title"));
+            Record record = new Record();
+            Optional<Genre> genreOptional = genreRepository.findByNameIgnoreCase(recordObject.get("genre").toUpperCase());
+            if (genreOptional.isEmpty()) {
+                throw new InformationNotFoundException("Genre not found in our database.");
+            } else {
+                record.setTitle(recordObject.get("title").toUpperCase());
+                record.setArtist(recordObject.get("artist").toUpperCase());
+                record.setGenre(genreOptional.get());
+                record.setCoverArtURL(recordObject.get("coverArtURL"));
+                record.setAvgFSVal(Integer.parseInt(recordObject.get("fsValue")));
+                record.setAvgUDVal(Integer.parseInt(recordObject.get("udValue")));
+                record.setAvgHLVal(Integer.parseInt(recordObject.get("hiLoValue")));
+                record.setAvgMDVal(Integer.parseInt(recordObject.get("mdValue")));
+                return recordRepository.save(record);
+            }
+        }
+    }
+
 }
