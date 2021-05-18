@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.context.WebApplicationContext;
 
 @EnableWebSecurity
-public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
+public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
     private MyUserDetailsService myUserDetailsService;
     @Autowired
     public void setMyUserDetailsService(MyUserDetailsService myUserDetailsService) {
