@@ -30,7 +30,6 @@ public class UserController {
         return userService.loginUser(loginRequest);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/create-profile")
     public User createUserProfile (@RequestBody UserProfile userProfileObject){
         System.out.println("User controller calling createUserProfile");
