@@ -40,6 +40,11 @@ public class AlbumController {
         return albumService.addToCollection(recordId);
     }
 
+    @DeleteMapping("/browse/{recordId}")
+    public void deleteRecord(@PathVariable Long recordId){
+        System.out.println("Album controller calling deleteRecord");
+    }
+
 //    @PutMapping("/browse/{recordId}")
 //    public Album updateRecord(@PathVariable Long recordId){
 //        System.out.println("Album controller calling updateRecord");

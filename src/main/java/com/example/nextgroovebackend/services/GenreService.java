@@ -2,11 +2,13 @@ package com.example.nextgroovebackend.services;
 
 import com.example.nextgroovebackend.exceptions.CannotBeNullException;
 import com.example.nextgroovebackend.exceptions.InformationExistsException;
+import com.example.nextgroovebackend.exceptions.InformationNotFoundException;
 import com.example.nextgroovebackend.models.Genre;
 import com.example.nextgroovebackend.repositories.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,6 +34,26 @@ public class GenreService {
                 genreObject.setName(genreObject.getName().toUpperCase());
                 return genreRepository.save(genreObject);
             }
+        }
+    }
+
+    public List<Genre> getAllGenres() {
+        System.out.println("Genre service calling getAllGenres");
+        List<Genre> allGenres = genreRepository.findAll();
+        if(allGenres.isEmpty()){
+            throw new InformationNotFoundException("there are no genres");
+        } else{
+            return allGenres;
+        }
+    }
+
+    public Genre getGenre(Long genreId){
+        System.out.println("Genre service calling getGenre");
+        Optional<Genre> genreOptional = genreRepository.findById(genreId);
+        if (genreOptional.isEmpty()){
+            throw new InformationNotFoundException("No genre with id: " + genreId);
+        } else{
+            return genreOptional.get();
         }
     }
 }
