@@ -49,7 +49,7 @@ public class NextGrooveBackendApplication {
             try{
                 List<Map<String, String>> records = mapper.readValue(inputStream,typeReference);
                 records.forEach(record -> {
-                    albumService.createRecordFromJSON(record);
+                    albumService.createAlbumFromJSON(record);
                     System.out.println(record.get("title") + " --- " + record.get("artist") + " ");
                 });
             } catch(IOException e){

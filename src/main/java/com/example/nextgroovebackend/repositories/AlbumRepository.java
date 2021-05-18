@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface AlbumRepository extends JpaRepository <Album, Long> {
-    Optional<Album> findByTitleAndArtist(String recordTitle, String recordArtist);
+    Optional<Album> findByTitleAndArtist(String albumTitle, String albumArtist);
 }

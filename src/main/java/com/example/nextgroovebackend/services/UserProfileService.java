@@ -116,7 +116,7 @@ public class UserProfileService {
                     newMood.setUserProfile(userProfile);
                     toneRepository.save(newTone);
                     moodRepository.save(newMood);
-                    albumService.updateRecordAvgRatings(albumId);
+                    albumService.updateAlbumAvgRatings(albumId);
                     return recordOptional.get().getTitle() + " have been given the following rating: " + newTone + "\n" + newMood;
                 }
             }
