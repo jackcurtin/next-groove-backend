@@ -21,13 +21,13 @@ public class GenreController {
         return genreService.getAllGenres();
     }
 
-    @GetMapping("/{genreId}")
+    @GetMapping("{genreId}")
     public Genre getGenre(@PathVariable Long genreId){
         System.out.println("Genre controller calling getGenre");
         return genreService.getGenre(genreId);
     }
 
-    @PostMapping("/add")
+    @PostMapping("add")
     public Genre createGenre(@RequestBody Genre genreObject){
         System.out.println("Genre controller calling createGenre");
         return genreService.createGenre(genreObject);
