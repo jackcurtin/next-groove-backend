@@ -99,5 +99,25 @@
     "fsValue":"-3",
     "udValue":"-1",
     "coverArtURL": "https://images-na.ssl-images-amazon.com/images/I/8192Biyqf8L._SL1417_.jpg"
+  },
+  {
+    "title":"BLOWOUT COMB",
+    "artist":"DIGABLE PLANETS",
+    "genre": "RAP",
+    "mdValue":"3",
+    "hiLoValue":"1",
+    "fsValue":"1",
+    "udValue":"4",
+    "coverArtURL": "http://images.genius.com/d296814bca0898caf4138178e81cf4ff.763x763x1.jpg"
+  },
+  {
+    "title":"DER SCHWARTZE MOND",
+    "artist":"VALIUM AGGELEIN",
+    "genre": "EXPERIMENTAL",
+    "mdValue":"-2",
+    "hiLoValue":"-3",
+    "fsValue":"-5",
+    "udValue":"-4",
+    "coverArtURL": "https://e.snmc.io/i/600/s/7eac8de7e4cc13794aebf17c3d54c0cc/7163943"
   }
 ]
