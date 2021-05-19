@@ -32,7 +32,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
-                "/auth/register", "/auth/login", "/auth/create-profile", "/albums/browse/*",
+                "/auth/register", "/auth/login", "/albums/browse/*",
         "/genres/*").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
